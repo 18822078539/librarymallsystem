@@ -25,31 +25,31 @@
 	<div id="editForm" style="width: 700px; padding-top: 10px;">
 		<form id="formData" class="layui-form">
 			<div class="layui-form-item">
-				<label class="layui-form-label">商品名称</label>
+				<label class="layui-form-label">图书名称</label>
 				<div class="layui-input-block">
 					<input type="text" name="goodsName" id="goodsName" required
-						lay-verify="required" placeholder="请输入商品名称" value=""
+						lay-verify="required" placeholder="请输入图书名称" value=""
 						class="layui-input" />
 				</div>
 			</div>
 			<div class="layui-form-item">
-				<label class="layui-form-label">商品价格</label>
+				<label class="layui-form-label">图书价格</label>
 				<div class="layui-input-block">
 					<input type="text" name="goodsPrice" id="goodsPrice" required
-						lay-verify="required" placeholder="请输入商品价格" value=""
+						lay-verify="required" placeholder="请输入图书价格" value=""
 						class="layui-input" />
 				</div>
 			</div>
 			<div class="layui-form-item">
-				<label class="layui-form-label">商品库存</label>
+				<label class="layui-form-label">图书库存</label>
 				<div class="layui-input-block">
 					<input type="text" name="goodsNum" id="goodsNum" required
-						lay-verify="required" placeholder="请输入商品库存" value=""
+						lay-verify="required" placeholder="请输入图书库存" value=""
 						class="layui-input" />
 				</div>
 			</div>
 			<div class="layui-form-item" lay-filter="test">
-				<label class="layui-form-label">商品类别</label>
+				<label class="layui-form-label">图书类别</label>
 				<div class="layui-input-inline">
 					<select name="goodsType.typeId" id="goodsType" required
 						lay-verify="required" lay-filter="goods.goodsType.typeId">
@@ -57,7 +57,7 @@
 				</div>
 			</div>
 			<div class="layui-form-item">
-				<label class="layui-form-label">内存大小</label>
+				<label class="layui-form-label">图书规格</label>
 				<div class="layui-input-inline">
 					<select name="goodsMemory.memoryId" id="memory" required
 						lay-verify="required" lay-filter="memory">
@@ -65,14 +65,14 @@
 				</div>
 			</div>
 			<div class="layui-form-item">
-				<label class="layui-form-label">商品颜色</label>
+				<label class="layui-form-label">图书颜色</label>
 				<div class="layui-input-block">
 					<input type="text" name="goodsColor" id="goodsColor" required
 						lay-verify="required" value="" class="layui-input" />
 				</div>
 			</div>
 			<div class="layui-form-item">
-				<label class="layui-form-label">商品图片</label> 
+				<label class="layui-form-label">图书图片</label> 
 				<div class="layui-input-block">
 					<button type="button" class="layui-btn layui-btn-normal" id="test1">
 					  <i class="layui-icon">&#xe67c;</i>上传图片
@@ -82,7 +82,7 @@
 			</div>
 
 			<div class="layui-form-item">
-				<label class="layui-form-label">商品描述</label>
+				<label class="layui-form-label">图书描述</label>
 				<div class="layui-input-block">
 					<textarea name="goodsDesc" id="goodsDesc" required
 						lay-verify="required" class="layui-textarea"></textarea>
@@ -122,11 +122,11 @@
 							data:$("#formData").serialize(),
 							success:function(data){
 								if(data=="success"){
-									layer.msg("添加商品成功！",{icon:1,time:2000},function(){
+									layer.msg("添加图书成功！",{icon:1,time:2000},function(){
 										window.location.href="view/goodsList";
 									});
 								}else{
-									layer.msg("添加商品失败！请重试！",{icon:5,time:2000});
+									layer.msg("添加图书失败！请重试！",{icon:5,time:2000});
 								}
 							}
 						});
@@ -148,7 +148,7 @@
    		   type: "POST",
    		   url: "memory/findAll",
    		   success: function(arr){
-	            var str="<option value=''>请选择内存大小</option>";
+	            var str="<option value=''>请选择图书规格</option>";
 	            for(var i=0;i<arr.length;i++){
 	               	str=str+"<option value='"+arr[i].memoryId+"'>"+arr[i].memoryName+"</option>";
 	            }

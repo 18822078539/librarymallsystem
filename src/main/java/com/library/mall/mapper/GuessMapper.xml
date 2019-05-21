@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from guess
 	</select>
 	<insert id="saveGuess" parameterType="Guess">
-		insert into Guess(guess_goods,guess_num,guess_user)
+		insert into guess(guess_goods,guess_num,guess_user)
 		values(#{guessGoods.goodsId},#{guessNum},#{guessUser.userId})
 	</insert>
 	<delete id="deleteGuess" parameterType="java.lang.Integer">

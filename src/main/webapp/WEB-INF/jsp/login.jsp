@@ -12,7 +12,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>乐享手机商城</title>
+<title>图书商城</title>
 <link href="resources/css/style.css" rel="stylesheet">
 <link href="resources/css/layui.css" rel="stylesheet">
 <link href="resources/css/admin.css" rel="stylesheet">
@@ -59,24 +59,24 @@
 						<div class="layui-unselect layui-form-checkbox" lay-skin="primary">
 							<span>记住密码</span><i class="layui-icon layui-icon-ok"></i>
 						</div>
-						<a lay-href="/user/forget"
-							class="layadmin-user-jump-change layadmin-link"
-							style="margin-top: 7px;">忘记密码？</a>
+						<%--<a href="/user/forget"--%>
+							<%--class="layadmin-user-jump-change layadmin-link"--%>
+							<%--style="margin-top: 7px;">忘记密码？</a>--%>
 					</div>
 					<div class="layui-form-item">
 						<button class="layui-btn layui-btn-fluid" type="button" lay-submit=""
 							lay-filter="loginSubmit">登 入</button>
 					</div>
-					<div class="layui-form-item layadmin-user-login-other" style="padding-bottom:1px;">
-						<label>社交账号登入</label> <a href="javascript:;"><i
-							class="layui-icon layui-icon-login-qq"></i></a> <a
-							href="javascript:;"><i
-							class="layui-icon layui-icon-login-wechat"></i></a> <a
-							href="javascript:;"><i
-							class="layui-icon layui-icon-login-weibo"></i></a> <a
-							lay-href="/user/reg"
-							class="layadmin-user-jump-change layadmin-link">注册帐号</a>
-					</div>
+					<%--<div class="layui-form-item layadmin-user-login-other" style="padding-bottom:1px;">--%>
+						<%--<label>社交账号登入</label> <a href="javascript:;"><i--%>
+							<%--class="layui-icon layui-icon-login-qq"></i></a> <a--%>
+							<%--href="javascript:;"><i--%>
+							<%--class="layui-icon layui-icon-login-wechat"></i></a> <a--%>
+							<%--href="javascript:;"><i--%>
+							<%--class="layui-icon layui-icon-login-weibo"></i></a> --%>
+						<%--<a href="/user/reg"--%>
+							<%--class="layadmin-user-jump-change layadmin-link">注册帐号</a>--%>
+					<%--</div>--%>
 				</div>
 			</div>
 		</div>

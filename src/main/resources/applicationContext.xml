@@ -17,7 +17,7 @@
 	
 	<bean id="dataSource"
 		class="com.alibaba.druid.pool.DruidDataSource">
-		<property name="url" value="jdbc:mysql://120.79.15.107:3306/bookmarket"></property>
+		<property name="url" value="jdbc:mysql://120.79.15.107:3306/bookmarket?useUnicode=true&amp;characterEncoding=utf8"></property>
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 		<property name="username" value="root"></property>
 		<property name="password" value="cx1314**"></property>

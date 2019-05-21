@@ -13,7 +13,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>乐享手机商城</title>
+<title>图书商城</title>
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="resources/css/style.css" rel="stylesheet">
 <script type="text/javascript" src="resources/js/jquery.1.12.4.min.js"></script>
@@ -31,7 +31,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="view/index">乐享手机商城</a>
+				<a class="navbar-brand" href="view/index">图书商城</a>
 			</div>
 
 			<div class="collapse navbar-collapse"
@@ -60,10 +60,10 @@
 				<div class="navbar-form navbar-right">
 				<form action="goods/search" method="post">
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="iPhone X" name="keyWord"
+						<input type="text" class="form-control" placeholder="从你的全世界路过" name="keyWord"
 							id="searchKeyWord" />
 					</div>
-					<button class="btn btn-default" type="submit">查找商品</button>
+					<button class="btn btn-default" type="submit">查找图书</button>
 				</div>
 				</form>
 			</div>

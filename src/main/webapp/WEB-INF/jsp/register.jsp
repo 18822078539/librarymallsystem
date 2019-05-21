@@ -12,7 +12,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>乐享手机商城</title>
+<title>图书商城</title>
 <link href="resources/css/style.css" rel="stylesheet">
 <link href="resources/css/layui.css" rel="stylesheet">
 <link href="resources/css/admin.css" rel="stylesheet">
@@ -85,18 +85,18 @@
 							<button class="layui-btn layui-btn-fluid" lay-submit="" type="button"
 								lay-filter="reg-submit">注 册</button>
 						</div>
-						<div class="layui-trans layui-form-item layadmin-user-login-other">
-							<label>社交账号注册</label> <a href="javascript:;"><i
-								class="layui-icon layui-icon-login-qq"></i></a> <a
-								href="javascript:;"><i
-								class="layui-icon layui-icon-login-wechat"></i></a> <a
-								href="javascript:;"><i
-								class="layui-icon layui-icon-login-weibo"></i></a> <a
-								lay-href="user/login"
-								class="layadmin-user-jump-change layadmin-link layui-hide-xs">用已有帐号登入</a>
-							<a lay-href="user/login"
-								class="layadmin-user-jump-change layadmin-link layui-hide-sm layui-show-xs-inline-block">登入</a>
-						</div>
+						<%--<div class="layui-trans layui-form-item layadmin-user-login-other">--%>
+							<%--<label>社交账号注册</label> <a href="javascript:;"><i--%>
+								<%--class="layui-icon layui-icon-login-qq"></i></a> <a--%>
+								<%--href="javascript:;"><i--%>
+								<%--class="layui-icon layui-icon-login-wechat"></i></a> <a--%>
+								<%--href="javascript:;"><i--%>
+								<%--class="layui-icon layui-icon-login-weibo"></i></a> <a--%>
+								<%--lay-href="user/login"--%>
+								<%--class="layadmin-user-jump-change layadmin-link layui-hide-xs">用已有帐号登入</a>--%>
+							<%--<a lay-href="user/login"--%>
+								<%--class="layadmin-user-jump-change layadmin-link layui-hide-sm layui-show-xs-inline-block">登入</a>--%>
+						<%--</div>--%>
 					</div>
 				</div>
 			</div>
