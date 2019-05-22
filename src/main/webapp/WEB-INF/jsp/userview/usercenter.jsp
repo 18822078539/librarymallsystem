@@ -51,6 +51,8 @@ a {
 						href="view/usercenter/#section4">猜你喜欢</a></li>
 					<li class="list-group-item-diy"><a
 						href="view/usercenter/#section5">账户安全</a></li>
+					<li class="list-group-item-diy"><a
+							href="view/usercenter/#section6">书友圈</a></li>
 				</ul>
 			</div>
 			<!-- 控制内容 -->
@@ -80,35 +82,6 @@ a {
 						</ul>
 						<div class="layui-tab-content" style="height: auto;">
 							<div class="layui-tab-item layui-show" id="state1">
-									<!-- <div class='layui-colla-item'> -->
-										<!-- <h2 class='layui-colla-title'>订单编号：3724a838bbc64359a33de2c198859431&nbsp;&nbsp;总价：17995元&nbsp;</h2>
-										<div class='layui-colla-content'>
-											<h4>收货人：汤姆&nbsp;&nbsp;收货地址：河南郑州二七幸福小区</h4>
-											<div class='layui-form'>
-												<table class='layui-table'>
-													<thead>
-														<tr>
-															<th>商品名称</th>
-															<th>价格</th>
-															<th>数量</th>
-															<th>小计</th>
-														</tr>
-													</thead>
-													<tbody>
-														<tr>
-															<td><a href='goods/detail?goodsId=7'>OPPO R11s
-																	Plus</a></td>
-															<td>3599</td>
-															<td>5</td>
-															<td>17995</td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
-											<a href='javascript:void(0)'
-												class='layui-btn layui-btn-normal layui-btn-fluid layui-btn-radius'>去付款</a>
-										</div> -->
-									<!-- </div> -->
 							</div>
 							<div class="layui-tab-item" id="state2"></div>
 							<div class="layui-tab-item" id="state3"></div>
@@ -207,6 +180,29 @@ a {
 					          
 					        </div>
 					      </div>
+					</table>
+				</div>
+				<div class="col-md-12">
+					<h1>
+						<a name="section6">书友圈</a>
+					</h1>
+					<hr />
+					<table class="table table-hover center" id="friendArea">
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">读书感想</li>
+                                <li>留言板</li>
+                                <li>我的好友</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+
+                                </div>
+                                <div class="layui-tab-item">内容2</div>
+                                <div class="layui-tab-item">内容3</div>
+                            </div>
+                        </div>
+
 					</table>
 				</div>
 			</div>

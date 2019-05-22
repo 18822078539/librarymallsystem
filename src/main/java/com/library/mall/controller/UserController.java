@@ -47,6 +47,7 @@ public class UserController {
 		}
 		return "fail";
 	}
+
 	@RequestMapping("logout")
 	public String logout(HttpServletRequest request){
 		HttpSession session = request.getSession();

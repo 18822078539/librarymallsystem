@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.mall.mapper.FeelMapper">
+  <resultMap id="BaseResultMap" type="com.library.mall.entity.Feel">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="feelid" jdbcType="INTEGER" property="feelid" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="feeltime" jdbcType="TIMESTAMP" property="feeltime" />
+    <result column="pic" jdbcType="VARCHAR" property="pic" />
+    <result column="feelcontent" jdbcType="LONGVARCHAR" property="feelcontent" />
+  </resultMap>
+</mapper>
