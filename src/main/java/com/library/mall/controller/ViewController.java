@@ -1,8 +1,13 @@
 package com.library.mall.controller;
 
+import com.library.mall.entity.Users;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/view")
@@ -25,7 +30,10 @@ public class ViewController {
 		return "register";
 	}
 	@RequestMapping("usercenter")
-	public String toUserCenter(){
+	public String toUserCenter(ModelMap modelMap,HttpServletRequest request){
+		HttpSession session = request.getSession();
+		Users users = (Users) session.getAttribute("user");
+		modelMap.put("user",users);
 		return "userview/usercenter";
 	}
 	@RequestMapping("index")

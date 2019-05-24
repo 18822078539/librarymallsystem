@@ -43,7 +43,7 @@
 						<li><a href="view/login">登录</a></li>
 					</c:if>
 					<c:if test="${not empty sessionScope.user}">
-						<li><a href="view/usercenter">用户中心</a></li>
+						<li><a href="view/usercenter">用户中心<span class="layui-badge">${user.applyNum}</span></a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false"><div style="margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;"><img src="upload/${user.userImg }" style="width:30px;height:30px;" class="layui-nav-img"></div>&nbsp;&nbsp;${sessionScope.user.userName} <span

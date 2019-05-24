@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.library.mall.entity.FriendMap;
+import com.library.mall.service.IFriendMapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +37,9 @@ public class UserController {
 	private static final String String = null;
 	@Autowired
 	private IUserService userService;
+
+	@Autowired
+	private IFriendMapService friendMapService;
 	
 	@RequestMapping("login")
 	@ResponseBody
@@ -42,6 +47,12 @@ public class UserController {
 		Users user = userService.login(userName, MD5Utils.passToMD5(userPass));
 		if(user!=null){
 			HttpSession session = request.getSession();
+			//查询一下当前用户申请加好友人数
+			FriendMap friendMap = new FriendMap();
+			friendMap.setUserid(user.getUserId());
+			friendMap.setState(0);
+			List<FriendMap> applyNums = friendMapService.searchFriends(friendMap);
+			user.setApplyNum(applyNums.size());
 			session.setAttribute("user", user);
 			return "success";
 		}

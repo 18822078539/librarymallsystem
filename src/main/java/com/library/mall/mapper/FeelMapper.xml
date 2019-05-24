@@ -10,5 +10,6 @@
     <result column="feeltime" jdbcType="TIMESTAMP" property="feeltime" />
     <result column="pic" jdbcType="VARCHAR" property="pic" />
     <result column="feelcontent" jdbcType="LONGVARCHAR" property="feelcontent" />
+
   </resultMap>
 </mapper>

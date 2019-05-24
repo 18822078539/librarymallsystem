@@ -41,7 +41,7 @@
 			</array>
 		</property> 
 	</bean>
-	<bean id="mapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer"> 
+	<bean id="mapperConfig" class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.library.mall.mapper"></property>
 	</bean>
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">

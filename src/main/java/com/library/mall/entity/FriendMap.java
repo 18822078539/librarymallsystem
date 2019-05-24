@@ -9,30 +9,33 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "feel")
-public class Feel {
+@Table(name = "friendmap")
+public class FriendMap {
     /**
-     * 说说id
+     * 好友对id
      */
     @Id
-    private Integer feelid;
+    private Integer friendmapid;
 
     /**
-     * 发表说说的用户id
+     * 请求者id
      */
     private Integer userid;
 
     /**
-     * 发表说说的日期
+     * 接受请求者id
      */
-    private Date feeltime;
-
-    private String pic;
+    private Integer friendid;
 
     /**
-     * 说说的内容
+     * 好友状态,0:等待 1：接受
      */
-    private String feelcontent;
+    private Integer state;
+
+    /**
+     * 成为好友的时间
+     */
+    private Date addtime;
     @Transient
     private Users users;
 

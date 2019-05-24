@@ -221,15 +221,14 @@
     <dependency>
       <groupId>tk.mybatis</groupId>
       <artifactId>mapper</artifactId>
-      <version>4.0.4</version>
+      <version>3.3.0</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->
+    <!-- google.guava/guava -->
     <dependency>
-      <groupId>com.github.pagehelper</groupId>
-      <artifactId>pagehelper</artifactId>
-      <version>5.1.8</version>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>25.1-jre</version>
     </dependency>
-
 
 
   </dependencies>

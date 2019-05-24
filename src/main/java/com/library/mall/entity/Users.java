@@ -10,6 +10,16 @@ public class Users  implements Serializable{
 	private String userEmail;
 	private Integer userState;
 	private String userImg;
+	private Integer applyNum;
+
+	public Integer getApplyNum() {
+		return applyNum;
+	}
+
+	public void setApplyNum(Integer applyNum) {
+		this.applyNum = applyNum;
+	}
+
 	public Integer getUserId() {
 		return userId;
 	}

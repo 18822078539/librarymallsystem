@@ -53,6 +53,8 @@ a {
 						href="view/usercenter/#section5">账户安全</a></li>
 					<li class="list-group-item-diy"><a
 							href="view/usercenter/#section6">书友圈</a></li>
+					<li class="list-group-item-diy"><a
+							href="view/usercenter/#section7">好友申请<span class="layui-badge">${user.applyNum}</span></a></li>
 				</ul>
 			</div>
 			<!-- 控制内容 -->
@@ -195,20 +197,77 @@ a {
                                 <li>我的好友</li>
                             </ul>
                             <div class="layui-tab-content">
-                                <div class="layui-tab-item layui-show">
+                                <div class="layui-tab-item layui-show" >
+									<form class="layui-form" action="feels/saveFeel">
+										<div class="layui-card">
+										<div class="layui-card-body">
+											<div class="layui-form-item layui-form-text">
+												<label class="layui-form-label">我的感想</label>
+												<div class="layui-input-block">
+													<textarea placeholder="请输入内容" class="layui-textarea" name="feelcontent"></textarea>
+												</div>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<button class="layui-btn" type="submit">发表</button>
+										</div>
+									</div>
+									</form>
+									<div id="readSay">
 
+									</div>
                                 </div>
-                                <div class="layui-tab-item">内容2</div>
-                                <div class="layui-tab-item">内容3</div>
+                                <div class="layui-tab-item">
+									<div id="readMsg">
+
+									</div>
+								</div>
+                                <div class="layui-tab-item">
+									<div id="readFriend">
+
+									</div>
+								</div>
                             </div>
                         </div>
 
 					</table>
 				</div>
+				<div class="col-md-12">
+					<h1>
+						<a name="section7">好友申请</a>
+					</h1>
+					<hr />
+					<table class="table table-hover center" id="applyfriend">
+						<div class="layui-card" style="margin-left: -20px;">
+							<div class="layui-card-header">好友申请</div>
+							<div class="layui-card-body" pad15="">
+
+								<div class="layui-form" lay-filter="">
+									<div id="readApplyFriend">
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</table>
+				</div>
+
 			</div>
 		</div>
 	</div>
 
+	<div id="addMsg" style="display:none;width:800px;padding-top:10px;">
+		<form id="formData" class="layui-form">
+			<input type="hidden" name="receiveid" id="receiveid" >
+			<div class="layui-form-item">
+				<label class="layui-form-label">留言内容</label>
+				<div class="layui-input-block">
+					<input type="text" name="content" id="content" required lay-verify="required" placeholder="请输入留言内容" value="" class="layui-input" />
+				</div>
+			</div>
+		</form>
+	</div>
 
 	<!-- 尾部 -->
 	<jsp:include page="include/foot.jsp" />
@@ -424,13 +483,183 @@ a {
 			showUserAddress();
 			showRecentView();
 			showProvince();
-		})
+			showAllFeels();
+            showAllMessages();
+            showAllFriends();
+            showAllApply();
+
+        })
+
+        function showAllApply() {
+            $.post("friendMap/findBySplitPage",{
+                pageSize: 30,
+                pageNum: 1,
+				state:0
+            },function(r){
+                if (r.code === 0) {
+                    console.info(r.msg);
+                    var html = "";
+                    for(var i = 0;i<r.msg.length;i++){
+                        var item = r.msg[i];
+                        var str = "<div class=\"layui-card\">" +
+                            "<div style=\"margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;\"><img src=\"upload/"+item.users.userImg+"\" style=\"width:30px;height:30px;\" class=\"layui-nav-img\"></div>&nbsp;&nbsp;" +item.users.userName+
+                            "<div>" +item.ctime+" <button class=\"layui-btn layui-btn-xs\" onclick='agree("+item.friendmapid+")'>同意</button>"+
+                            "</div>" +
+                            "</div>";
+                        html+=str;
+                    }
+                    $("#readApplyFriend").html("").append(html);
+
+                } else {
+                }
+            });
+        }
+        
+        function agree(friendmapid) {
+            $.post("friendMap/agree",{
+                friendmapid: friendmapid
+            },function(r){
+				if(r.code===0){
+                    parent.layer.msg('已同意', { icon: 1, shade: 0.4, time: 1000 });
+                    location.reload();
+				}else{
+                    parent.layer.msg('操作异常', { icon: 1, shade: 0.4, time: 1000 });
+				}
+            })
+        }
 		function cleanImgsPreview(){
 			success=0;
 			fail=0;
 			$('#demo2').html("");
 			$('#imgUrls').val("");
 		}
+		function showAllFeels() {
+            $.post("feels/findBySplitPage",{
+                pageSize: 30,
+                pageNum: 1
+			},function(r){
+                if (r.code === 0) {
+                    console.info(r.msg);
+                    var html = "";
+                    for(var i = 0;i<r.msg.length;i++){
+                        var item = r.msg[i];
+                        var str = "<div class=\"layui-card\">" +
+                            "<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\"" +
+                            "data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"" +
+                            "aria-expanded=\"false\"><div style=\"margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;\"><img src=\"upload/"+item.users.userImg+"\" style=\"width:30px;height:30px;\" class=\"layui-nav-img\"></div>&nbsp;&nbsp;" +item.users.userName+"<span class=\"caret\"></span></a><ul class=\"dropdown-menu\"><li><a href=\"javascript:void(0)\" onclick='addFriend("+item.users.userId+")'>加好友</a></li></ul></li>"+
+                            "<div>" +item.feelcontent+
+                            "</div>" +
+                            "<div>" +item.ctime+
+                            "</div>" +
+                            "</div>";
+                        html+=str;
+					}
+					$("#readSay").html("").append(html);
+
+                } else {
+                }
+            });
+        }
+        function showAllMessages() {
+            $.post("messages/findBySplitPage",{
+                pageSize: 30,
+                pageNum: 1
+            },function(r){
+                if (r.code === 0) {
+                    console.info(r.msg);
+                    var html = "";
+                    for(var i = 0;i<r.msg.length;i++){
+                        var item = r.msg[i];
+                        var str = "<div class=\"layui-card\">" +
+                            "<div style=\"margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;\"><img src=\"upload/"+item.sendUsers.userImg+"\" style=\"width:30px;height:30px;\" class=\"layui-nav-img\"></div>&nbsp;&nbsp;" +item.sendUsers.userName+
+                            "<div>" +item.content+
+                            "</div>" +
+                            "<div>" +item.ctime+
+                            "</div>" +
+                            "</div>";
+                        html+=str;
+                    }
+                    $("#readMsg").html("").append(html);
+
+                } else {
+                }
+            });
+        }
+        function addFriend(friendId){
+            $.post("friendMap/addFriend",{
+                friendid:friendId
+            },function (r) {
+                if (r.code === 0) {
+                    parent.layer.msg('好友申请发送成功', { icon: 1, shade: 0.4, time: 1000 });
+                }else{
+                    parent.layer.msg(r.msg, { icon: 1, shade: 0.4, time: 1000 });
+				}
+            })
+		}
+        function showAllFriends() {
+            $.post("friendMap/findBySplitPage",{
+                pageSize: 30,
+                pageNum: 1,
+				state:1
+            },function(r){
+                if (r.code === 0) {
+                    console.info(r.msg);
+                    var html = "";
+                    for(var i = 0;i<r.msg.length;i++){
+                        var item = r.msg[i];
+                        var str = "<div class=\"layui-card\">" +
+                            "<div style=\"margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;\"><img src=\"upload/"+item.users.userImg+"\" style=\"width:30px;height:30px;\" class=\"layui-nav-img\"></div>&nbsp;&nbsp;" +item.users.userName+
+                            "<div>" +item.ctime+" <button class=\"layui-btn layui-btn-xs\" onclick='addMsgEvent("+item.friendid+")'>留言</button>"+
+                            "</div>" +
+                            "</div>";
+                        html+=str;
+                    }
+                    $("#readFriend").html("").append(html);
+
+                } else {
+                }
+            });
+        }
+
+        /**
+		 * 触发留言事件
+         */
+        function addMsgEvent(friendid) {
+            layer.open({
+                type: 1,
+                title: '新增留言',
+                shade: 0.4,  //阴影度
+                fix: false,
+                shadeClose: true,
+                maxmin: false,
+                area: ['900px;', '240px;'],    //窗体大小（宽,高）
+                content: $('#addMsg'),
+                success: function (layero, index)
+                {
+                    var body = layer.getChildFrame('body', index); //得到子页面层的BODY
+                    $("#receiveid").val(friendid);
+                    form.render();
+                    body.find('#hidValue').val(index); //将本层的窗口索引传给子页面层的hidValue中
+                },
+                btn:['留言','取消'],
+                yes: function(index, layero){
+                    $.post('messages/saveMessage',$('#formData').serialize(),function(data){
+                        if (data.code == 0)
+                        {
+                            parent.layer.msg('留言成功', { icon: 1, shade: 0.4, time: 1000 });
+//                            this.widows.location.href = "view/usercenter";
+                        }
+                        else
+                        {
+                            parent.layer.msg('留言失败', { icon: 5, shade: 0.4, time: 1000 });
+                        }
+//                        $("#newImg").html("");
+                        layer.close(index);
+                    });
+                }
+            })
+        }
+
 		function showUserAddress(){
 			$.ajax({
 				type:"post",
