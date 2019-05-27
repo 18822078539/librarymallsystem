@@ -17,11 +17,12 @@ public class Order  implements Serializable{
 	private String orderPhone;
 	private String orderAddress;
 	private String orderExpressNo;
+	private String orderBackENo;
 	private List<OrderDetail> detailList;
 	
 	public Order(String orderId, Users orderUser, Date orderDate, Double orderPrice, Integer orderState,
 			String orderUserName, String orderPhone, String orderAddress, String orderExpressNo,
-			List<OrderDetail> detailList) {
+			String orderBackENo,List<OrderDetail> detailList) {
 		super();
 		this.orderId = orderId;
 		this.orderUser = orderUser;
@@ -32,6 +33,7 @@ public class Order  implements Serializable{
 		this.orderPhone = orderPhone;
 		this.orderAddress = orderAddress;
 		this.orderExpressNo = orderExpressNo;
+		this.orderBackENo = orderBackENo;
 		this.detailList = detailList;
 	}
 	public String getOrderExpressNo() {
@@ -94,8 +96,17 @@ public class Order  implements Serializable{
 	public void setOrderAddress(String orderAddress) {
 		this.orderAddress = orderAddress;
 	}
+
+	public String getOrderBackENo() {
+		return orderBackENo;
+	}
+
+	public void setOrderBackENo(String orderBackENo) {
+		this.orderBackENo = orderBackENo;
+	}
+
 	public Order(String orderId, Users orderUser, Date orderDate, Double orderPrice, Integer orderState,
-			String orderUserName, String orderPhone, String orderAddress) {
+				 String orderUserName, String orderPhone, String orderAddress) {
 		super();
 		this.orderId = orderId;
 		this.orderUser = orderUser;

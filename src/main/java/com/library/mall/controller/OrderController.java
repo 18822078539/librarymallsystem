@@ -157,6 +157,16 @@ public class OrderController {
 			return "fail";
 		}
 	}
+	@RequestMapping("backOrder")
+	@ResponseBody
+	public String backOrder(String orderId,String backENo){
+		Integer rs = orderService.backOrder(orderId,backENo);
+		if(rs>0){
+			return "success";
+		}else{
+			return "fail";
+		}
+	}
 	@RequestMapping("findOrderBySplitPage")
 	@ResponseBody
 	public JSONObject findOrderBySplitPage(Integer page,Integer limit,OrderSearchVO vo){

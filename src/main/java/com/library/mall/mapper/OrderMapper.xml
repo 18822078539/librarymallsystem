@@ -13,6 +13,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="orderPhone" column="order_phone" javaType="java.lang.String" />
 		<result property="orderAddress" column="order_address" javaType="java.lang.String" />
 		<result property="orderExpressNo" column="order_expressno" javaType="java.lang.String" />
+		<result property="orderBackENo" column="order_backeno" javaType="java.lang.String" />
+
 	</resultMap>
 	<resultMap type="com.library.mall.util.OrderVO" id="Base">
 		<result property="totalMoney" column="totalMoney" javaType="java.lang.Long" />
@@ -67,6 +69,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	<update id="evaOrder" parameterType="java.lang.String">
 		update `order` set order_state=5 where order_id=#{id}
+	</update>
+	<update id="backOrder" parameterType="java.lang.String">
+		update  `order` set order_state=6,order_backeno=#{1} where order_id=#{0}
 	</update>
 	<select id="findAllOrderBySearchVO" parameterType="com.library.mall.util.OrderSearchVO" resultMap="BaseResultMapJoinObj">
 		select * from `order` 

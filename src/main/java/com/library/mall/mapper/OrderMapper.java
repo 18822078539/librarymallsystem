@@ -26,4 +26,5 @@ public interface OrderMapper {
 	List<OrderVO> findTotalMoneyByMonth(Integer limit);
 	Integer findTotalOrder();
 	Integer findTotalDeliverOrder();
+	Integer backOrder(String orderId,String backENo);
 }

@@ -81,7 +81,7 @@
                         <li>待发货</li>
                         <li>待收货</li>
                         <li>待评价</li>
-                        <li>完成</li>
+                        <li>待归还</li>
                     </ul>
                     <div class="layui-tab-content" style="height: auto;">
                         <div class="layui-tab-item layui-show" id="state1">
@@ -1214,7 +1214,7 @@
                                 + arr[t].detailGoods.goodsPrice
                                 + "</td><td>"
                                 + arr[t].detailNum
-                                + "台</td><td>"
+                                + "本</td><td>"
                                 + arr[t].detailGoods.goodsPrice
                                 * arr[t].detailNum + "元</td>"
                                 + "</tr>";
@@ -1294,7 +1294,7 @@
                                 + arr[t].detailGoods.goodsPrice
                                 + "</td><td>"
                                 + arr[t].detailNum
-                                + "台</td><td>"
+                                + "本</td><td>"
                                 + arr[t].detailGoods.goodsPrice
                                 * arr[t].detailNum + "元</td>"
                                 + "</tr>";
@@ -1349,13 +1349,13 @@
                                 + arr[t].detailGoods.goodsPrice
                                 + "</td><td>"
                                 + arr[t].detailNum
-                                + "台</td><td>"
+                                + "本</td><td>"
                                 + arr[t].detailGoods.goodsPrice
                                 * arr[t].detailNum + "元</td>"
                                 + "</tr>";
                         }
                         str = str
-                            + "</tbody></table></div><button onclick='deleteOrder(\"" + data[i].orderId + "\")' class='layui-btn layui-btn-normal layui-btn-fluid layui-btn-radius'>删除订单</button>"
+                            + "</tbody></table></div><button onclick='deleteOrder(\"" + data[i].orderId + "\")' class='layui-btn layui-btn-normal layui-btn-fluid layui-btn-radius'>归还图书</button>"
                             + "</div></div>";
                     }
                     str = str + "</div>";
@@ -1367,20 +1367,55 @@
     }
 
     function deleteOrder(id) {
-        layer.confirm("确认删除该订单吗？", function () {
-            $.ajax({
-                type: "post",
-                url: "order/deleteOrder",
-                data: "orderId=" + id,
-                success: function (data) {
-                    if (data == "success") {
-                        layer.msg("删除订单成功！", {icon: 1, time: 2000});
-                    } else {
-                        layer.msg("删除订单失败！请重试！", {icon: 5, time: 2000});
+//        layer.confirm("确认删除该订单吗？", function () {
+//            $.ajax({
+//                type: "post",
+//                url: "order/deleteOrder",
+//                data: "orderId=" + id,
+//                success: function (data) {
+//                    if (data == "success") {
+//                        layer.msg("删除订单成功！", {icon: 1, time: 2000});
+//                    } else {
+//                        layer.msg("删除订单失败！请重试！", {icon: 5, time: 2000});
+//                    }
+//                    findFinishOrder();
+//                }
+//            });
+//        });
+        layer.open({
+            type: 1,
+            title: '图书归还',
+            shade: 0.4,  //阴影度
+            fix: false,
+            shadeClose: true,
+            maxmin: false,
+            area: ['600px;', '250px;'],    //窗体大小（宽,高）
+            content: "<div style='width:500px;padding-top:15px;'><div class='layui-form-item'><label class='layui-form-label'>订单编号</label>"+
+            "<div class='layui-input-block'><input type='text' name='orderId' id='orderId' style='background-color:#F8F8F8;' "+
+            " readonly='readonly' required lay-verify='required' value='"+id+"' class='layui-input' /></div></div>"+
+            "<div class='layui-form-item'><label class='layui-form-label'>快递单号</label><div class='layui-input-block'><input type='text' "+
+            " id='backENo' required lay-verify='required' class='layui-input' /></div></div></div>",
+            success: function (layero, index)
+            {
+                var body = layer.getChildFrame('body', index); //得到子页面层的BODY
+                body.find('#hidValue').val(index); //将本层的窗口索引传给子页面层的hidValue中
+            },
+            btn:['归还','取消'],
+            yes: function(index, layero){
+                var no=$("#backENo").val();
+                $.post('order/backOrder',{orderId:id,backENo:no},function(msg){
+                    if (msg == 'success')
+                    {
+                        parent.layer.msg('归还成功', { icon: 1, shade: 0.4, time: 1000 });
+                        findFinishOrder();
                     }
-                    findFinishOrder();
-                }
-            });
+                    else
+                    {
+                        parent.layer.msg('归还失败', { icon: 5, shade: 0.4, time: 1000 });
+                    }
+                    layer.close(index);
+                });
+            }
         });
     }
 

@@ -21,4 +21,6 @@ public interface IOrderService {
 	Integer findTotalOrder();
 	Integer findTotalDeliverOrder();
 	Integer payForOrder(String orderId);
+
+    Integer backOrder(String orderId,String backENo);
 }

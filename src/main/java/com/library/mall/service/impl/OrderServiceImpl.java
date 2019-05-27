@@ -116,5 +116,10 @@ public class OrderServiceImpl implements IOrderService {
 	public Integer payForOrder(String orderId) {
 		return orderMapper.payOrder(orderId);
 	}
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+	@Override
+	public Integer backOrder(String orderId,String backENo) {
+		return orderMapper.backOrder(orderId,backENo);
+	}
 
 }
