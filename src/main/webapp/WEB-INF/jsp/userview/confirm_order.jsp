@@ -31,7 +31,7 @@
 			<div class="col-sm-10  col-md-10 col-sm-offset-1 col-md-offset-1">
 				<div class="jumbotron">
 					<h1>欢迎来到结算页</h1>
-					<p>您的商品清单为</p>
+					<p>您的借书单为</p>
 				</div>
 			</div>
 			<div class="col-sm-10  col-md-10 col-sm-offset-1 col-md-offset-1">
@@ -55,10 +55,10 @@
 				</table>
 				<table class="table table-hover center" id="shoppingCarTable">
 					<tr>
-						<th>商品图</th>
-						<th>商品名称</th>
-						<th>商品单价</th>
-						<th>商品数量</th>
+						<th>图书封面</th>
+						<th>图书名称</th>
+						<th>图书单价</th>
+						<th>图书数量</th>
 						<th>总价</th>
 					</tr>
 					<c:forEach items="${cartList }" var="c">

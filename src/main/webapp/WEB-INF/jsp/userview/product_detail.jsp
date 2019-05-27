@@ -77,7 +77,7 @@
 					<dt style="padding-top:20px;"><button
 							class="layui-btn layui-btn-lg layui-btn-radius"
 							onclick="addToCart()">
-							<i class="layui-icon">&#xe608;</i>加入购物车
+							<i class="layui-icon">&#xe608;</i>加入借书单
 						</button></dt>
 					<dd style="padding-top:20px;padding-left:10px;width:320px;">
 					<button	class="layui-btn layui-btn-lg layui-btn-radius" id="fav"
@@ -91,7 +91,7 @@
 						<button
 							class="layui-btn layui-btn-lg layui-btn-radius"
 							onclick="javascript:window.location.href='view/cart';">
-							<i class="layui-icon">&#xe698;</i>去购物车
+							<i class="layui-icon">&#xe698;</i>去借书单
 						</button></dd>
 				</dl>
 			</div>
@@ -101,7 +101,7 @@
 			</div>
 		<div>
 				<div class="row clearfix">
-					<h2 style="padding-left:30px;">商品评价</h2>
+					<h2 style="padding-left:30px;">图书评价</h2>
 					<div class="col-md-12 column">
 						<div class="media-body" style="padding-left:20px;">
 					          <c:if test="${evaList!=null }">

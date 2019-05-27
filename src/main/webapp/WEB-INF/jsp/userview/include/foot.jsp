@@ -21,7 +21,7 @@
     <!-- 尾部 -->
     <hr/>
     <div class="foot-style">
-      	Copyright © 2017 - 2018  LeGo.com 版权所有|消费者维权热线：4006067733经营证照
+      	Copyright © 2017 - 2018  杨明宇&陈航 版权所有
         <br/>
         	图书商城
     </div>

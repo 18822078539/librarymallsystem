@@ -29,8 +29,8 @@
 		<div class="row" style="background-color:white;">
 			<div class="col-sm-10  col-md-10 col-sm-offset-1 col-md-offset-1">
 				<div class="jumbotron">
-					<h1>欢迎来到购物车</h1>
-					<p>您的购物车清单为</p>
+					<h1>欢迎来到借书单</h1>
+					<p>您的借书清单为</p>
 				</div>
 			</div>
 			<div class="col-sm-10  col-md-10 col-sm-offset-1 col-md-offset-1">
@@ -38,10 +38,10 @@
 				<table class="table table-hover center" id="shoppingCarTable">
 				</table>
 				<hr />
-				<div style='text-align:right;width:1000px;height:50px;font-size:16px;color:red;'>已选<span id="totalNum">0</span>件&nbsp;&nbsp;&nbsp;总价：<span id='totalPrice'>0</span>元</div>
+				<div style='text-align:right;width:1000px;height:50px;font-size:16px;color:red;'>已选<span id="totalNum">0</span>本&nbsp;&nbsp;&nbsp;总价：<span id='totalPrice'>0</span>元</div>
 				<div class="row">
 					<div class="col-lg-4 col-md-4 col-sm-4"></div>
-					<button type="button" class="btn btn-danger btn-lg col-lg-4 col-md-4 col-sm-4" onclick="confirmPre();">确认购买</button>
+					<button type="button" class="btn btn-danger btn-lg col-lg-4 col-md-4 col-sm-4" onclick="confirmPre();">确认借阅</button>
 				</div>
 			</form>
 			</div>
@@ -64,11 +64,11 @@
 			success : function(arr) {
 				if(arr!=null&&arr!=""){
 						var str='<tr>'+
-						'<th>是否购买<input onclick="selectAll();" type="checkbox" id="allSelect"></th>'+
-						'<th>商品图</th>'+
-						'<th>商品名称</th>'+
-						'<th>商品单价</th>'+
-						'<th>商品数量</th>'+
+						'<th>是否借阅<input onclick="selectAll();" type="checkbox" id="allSelect"></th>'+
+						'<th>图书封面</th>'+
+						'<th>图书名称</th>'+
+						'<th>借阅价</th>'+
+						'<th>借阅数量</th>'+
 						'<th>总价</th>'+
 						'<th>删除</th>'+
 						'</tr>';
@@ -97,7 +97,7 @@
 					})
 				}else{
 					var empty="<div style='width:100%;height:500px;'><div style='text-align:center;padding-top:100px;'>"+
-					"<img src='upload/emptycart.png'><p><h3>亲，您的购物车里还没有物品哦，赶紧去<a href='view/index'>逛逛</a>吧!</h3></p></div></div>";
+					"<img src='upload/emptycart.png'><p><h3>亲，您的借书单里还没有图书哦，赶紧去<a href='view/index'>逛逛</a>吧!</h3></p></div></div>";
 					$("#maincart").html(empty);
 				}
 			},

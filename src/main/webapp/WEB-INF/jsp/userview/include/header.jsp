@@ -50,7 +50,7 @@
 								class="caret"></span>
 						</a>
 							<ul class="dropdown-menu">
-								<li><a href="view/cart">购物车</a></li>
+								<li><a href="view/cart">借书单</a></li>
 								<li><a href="user/amendinfo">个人资料修改</a></li>
 								<li><a href="user/logout">注销登录</a></li>
 							</ul></li>

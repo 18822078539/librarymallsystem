@@ -231,49 +231,55 @@ public class OrderController {
 	}
 	@RequestMapping("toPay")
 	public String toPayFor(String orderId,HttpServletResponse response){
-		AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
-		//设置请求参数
-		AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
-		alipayRequest.setReturnUrl(AlipayConfig.return_url);
-		alipayRequest.setNotifyUrl(AlipayConfig.notify_url);
-		Order order = orderService.findOrderById(orderId);
-		//商户订单号，商户网站订单系统中唯一订单号，必填
-		String out_trade_no=null;
-		//付款金额，必填
-		String total_amount=null;
-		//订单名称，必填
-		String subject=null;
-		try {
-			out_trade_no = new String(orderId.getBytes("ISO-8859-1"),"UTF-8");
-			total_amount = new String((order.getOrderPrice()+"").getBytes("ISO-8859-1"),"UTF-8");
-			subject = new String("乐购手机商城");
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
+//		AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
+//		//设置请求参数
+//		AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
+//		alipayRequest.setReturnUrl(AlipayConfig.return_url);
+//		alipayRequest.setNotifyUrl(AlipayConfig.notify_url);
+//		Order order = orderService.findOrderById(orderId);
+//		//商户订单号，商户网站订单系统中唯一订单号，必填
+//		String out_trade_no=null;
+//		//付款金额，必填
+//		String total_amount=null;
+//		//订单名称，必填
+//		String subject=null;
+//		try {
+//			out_trade_no = new String(orderId.getBytes("ISO-8859-1"),"UTF-8");
+//			total_amount = new String((order.getOrderPrice()+"").getBytes("ISO-8859-1"),"UTF-8");
+//			subject = new String("乐购手机商城");
+//		} catch (UnsupportedEncodingException e1) {
+//			e1.printStackTrace();
+//		}
+//		//商品描述，可空
+//		List<OrderDetail> detailList = order.getDetailList();
+//		String body = null;
+//		for (OrderDetail o : detailList) {
+//			body=body+o.getDetailGoods().getGoodsName()+",";
+//		}
+//		body=body.substring(0, body.length()-1)+"等商品";
+//
+//		alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
+//				+ "\"total_amount\":\""+ total_amount +"\","
+//				+ "\"subject\":\""+ subject +"\","
+//				+ "\"body\":\""+ body +"\","
+//				+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+//		//请求
+//		try {
+//			String result = alipayClient.pageExecute(alipayRequest).getBody();
+//			//输出
+//			response.setContentType("text/html; charset=utf-8");
+//			PrintWriter out = response.getWriter();
+//			out.print(result);
+//		} catch (AlipayApiException | IOException e) {
+//			e.printStackTrace();
+//		}
+//        return null;
+		//模拟支付即可，完成支付状态更新
+		Integer rs = orderService.payForOrder(orderId);
+		if(rs>0){
+			System.out.println("同步通知支付成功");
 		}
-		//商品描述，可空
-		List<OrderDetail> detailList = order.getDetailList();
-		String body = null;
-		for (OrderDetail o : detailList) {
-			body=body+o.getDetailGoods().getGoodsName()+",";
-		}
-		body=body.substring(0, body.length()-1)+"等商品";
-		
-		alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\"," 
-				+ "\"total_amount\":\""+ total_amount +"\"," 
-				+ "\"subject\":\""+ subject +"\"," 
-				+ "\"body\":\""+ body +"\"," 
-				+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
-		//请求
-		try {
-			String result = alipayClient.pageExecute(alipayRequest).getBody();
-			//输出
-			response.setContentType("text/html; charset=utf-8");
-			PrintWriter out = response.getWriter();
-			out.print(result);
-		} catch (AlipayApiException | IOException e) {
-			e.printStackTrace();
-		}
-        return null;
+		return "paysuccess";
 	}
 	@RequestMapping("notify_url")
 	public void notifyUrl(HttpServletRequest request,HttpServletResponse response){

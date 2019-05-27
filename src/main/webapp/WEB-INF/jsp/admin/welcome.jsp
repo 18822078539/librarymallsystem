@@ -60,7 +60,7 @@
 		<div class="layui-card-body" id="order" style="width: 480px; height: 260px;"></div>
 	</div>
 	<div class="layui-card" style="width: 600px; height: 310px;float:left;margin-left:15px;">
-		<div class="layui-card-header">手机销量排行</div>
+		<div class="layui-card-header">图书借阅排行</div>
 		<div class="layui-card-body" id="volume" style="width: 580px; height: 260px;"></div>
 	</div>
 </body>
@@ -147,7 +147,7 @@
 		});
 		hotChart.setOption({
 	        title: {
-	        	text: '热门商品浏览量',
+	        	text: '热门书籍浏览量',
 	            x:'center'
 	        },
 	        tooltip: {
