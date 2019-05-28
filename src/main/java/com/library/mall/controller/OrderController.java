@@ -105,6 +105,22 @@ public class OrderController {
 		List<Order> orderList = orderService.findOrdersByUserIdAndState(user.getUserId(), 1);
 		return orderList;
 	}
+	@RequestMapping("findSureOrder")
+	@ResponseBody
+	public List<Order> findSureOrder(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		Users user=(Users) session.getAttribute("user");
+		List<Order> orderList = orderService.findOrdersByUserIdAndState(user.getUserId(), 6);
+		return orderList;
+	}
+	@RequestMapping("findFinishSecOrder")
+	@ResponseBody
+	public List<Order> findFinishSecOrder(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		Users user=(Users) session.getAttribute("user");
+		List<Order> orderList = orderService.findOrdersByUserIdAndState(user.getUserId(), 7);
+		return orderList;
+	}
 	@RequestMapping("findReadyToDeliverOrder")
 	@ResponseBody
 	public List<Order> findReadyToDeliverOrder(HttpServletRequest request){
@@ -204,6 +220,17 @@ public class OrderController {
 		}else{
 			return "fail";
 		}
+	}
+	@RequestMapping("expOrder")
+	@ResponseBody
+	public String expOrder(String orderId){
+			Integer rs = orderService.expOrder(orderId);
+			if(rs>0){
+				return "success";
+			}else{
+				return "fail";
+			}
+
 	}
 	@RequestMapping("findOrderById")
 	@ResponseBody

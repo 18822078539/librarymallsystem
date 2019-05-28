@@ -23,4 +23,6 @@ public interface IOrderService {
 	Integer payForOrder(String orderId);
 
     Integer backOrder(String orderId,String backENo);
+
+    Integer expOrder(String orderId);
 }

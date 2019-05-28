@@ -152,13 +152,14 @@ var element;
                 , url: 'order/findOrderBySplitPage'
                 ,width:1140
                 , cols: [[
-                     { field: 'orderId', title: '订单编号', width: 300, align: 'center' }
-                     , { field: 'orderUser', title: '下单用户', width: 120, align: 'center',templet:function(d){
+                     { field: 'orderId', title: '订单编号', width: 170, align: 'center' }
+                     , { field: 'orderUser', title: '下单用户', width: 100, align: 'center',templet:function(d){
                     	 return d.orderUser.userName
                      	} 
                      }
                     , { field: 'orderDate', title: '下单日期', width: 120, align: 'center' }
-                    , { field: 'orderPrice', title: '订单总价', width: 120, align: 'center' }
+                    , { field: 'orderPrice', title: '订单总价', width: 100, align: 'center' }
+                    ,{ field: 'orderOverTime', title: '归还日期', width: 120, align: 'center' }
                    ,{field:'orderState', title: '订单状态', width: 102, align: 'center',templet: function(d){
                         if(d.orderState==1){
                         	return "待付款";
@@ -168,11 +169,15 @@ var element;
                         	return "待收货";
                         }else if(d.orderState==4){
                         	return "待评价";
-                        }else{
-                        	return "完成";
-                        }
+                        }else if(d.orderState==5){
+                        	return "待归还";
+                        }else if(d.orderState==6){
+                            return "待确认";
+						}else{
+                            return "已完成";
+						}
                    	}
-                  }, {field:'orderExpressNo', title: '快递单号', width: 180, align: 'center',templet: function(d){
+                  }, {field:'orderExpressNo', title: '发货单号', width: 180, align: 'center',templet: function(d){
                         if(d.orderState==1){
                         	return "等待付款";
                         }else if(d.orderState==2){
@@ -185,7 +190,24 @@ var element;
                         	return d.orderExpressNo;
                         }
                    	}
-                  }, {title: '操作', fixed: 'right', width: 190, align: 'center', toolbar: '#bar'}
+                  },{field:'orderBackENo', title: '归还单号', width: 180, align: 'center',templet: function(d){
+                        if(d.orderState==1){
+                            return "等待付款";
+                        }else if(d.orderState==2){
+                            return "等待发货";
+                        }else if(d.orderState==3){
+                            return "等待收货";
+                        }else if(d.orderState==4){
+                            return "等待评价";
+                        }else if(d.orderState==5){
+                            return "等待归还";
+                        }else if(d.orderState==6){
+                            return "<button onclick='expOrder(\""+d.orderId+"\")' class='layui-btn layui-btn-sm layui-btn-fluid layui-btn-warm'>确认</button>";
+						}else{
+                            return d.orderBackENo;
+						}
+                    }
+                    }, {title: '操作', fixed: 'right', width: 160, align: 'center', toolbar: '#bar'}
                 ]]
                 , page: true
                 , limits: [5, 10, 15]
@@ -359,6 +381,32 @@ var element;
                 }
             });
         });
+
+		/**
+		 * 确认归还
+		 * @param id
+		 */
+		function expOrder(id) {
+            layer.confirm('是否确认归还成功？', {
+                btn: ['确认', '取消'] //可以无限个按钮
+                ,btn1: function(index, layero){
+                    $.post('order/expOrder',{orderId:id},function(msg){
+                        if (msg == 'success')
+                        {
+                            parent.layer.msg('归还成功', { icon: 1, shade: 0.4, time: 1000 });
+                            $("#search").click();
+                            $("#handle_status").val('');
+                        }
+                        else
+                        {
+                            parent.layer.msg('归还失败', { icon: 5, shade: 0.4, time: 1000 });
+                        }
+                        layer.close(index);
+                    });
+                }
+            });
+        }
+
         function deliverOrder(id){
         	layer.open({
                 type: 1,

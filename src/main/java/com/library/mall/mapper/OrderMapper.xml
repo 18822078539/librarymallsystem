@@ -14,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="orderAddress" column="order_address" javaType="java.lang.String" />
 		<result property="orderExpressNo" column="order_expressno" javaType="java.lang.String" />
 		<result property="orderBackENo" column="order_backeno" javaType="java.lang.String" />
+		<result property="orderOverTime" column="order_overtime" javaType="java.util.Date" />
 
 	</resultMap>
 	<resultMap type="com.library.mall.util.OrderVO" id="Base">
@@ -59,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update `order` set order_state=-1 where order_id=#{id}
 	</update>
 	<update id="payOrder" parameterType="java.lang.String">
-		update  `order` set order_state=2 where order_id=#{id}
+		update  `order` set order_state=2 , order_overtime = DATE_ADD(now(),INTERVAL 2 MONTH) where order_id=#{id}
 	</update>
 	<update id="deliverOrder" parameterType="java.lang.String">
 		update  `order` set order_state=3,order_expressno=#{1} where order_id=#{0}
@@ -69,6 +70,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	<update id="evaOrder" parameterType="java.lang.String">
 		update `order` set order_state=5 where order_id=#{id}
+	</update>
+	<update id="expOrder" parameterType="java.lang.String">
+		update `order` set order_state=7 where order_id=#{id}
 	</update>
 	<update id="backOrder" parameterType="java.lang.String">
 		update  `order` set order_state=6,order_backeno=#{1} where order_id=#{0}

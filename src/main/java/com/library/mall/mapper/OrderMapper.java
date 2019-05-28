@@ -27,4 +27,6 @@ public interface OrderMapper {
 	Integer findTotalOrder();
 	Integer findTotalDeliverOrder();
 	Integer backOrder(String orderId,String backENo);
+
+    Integer expOrder(String orderId);
 }

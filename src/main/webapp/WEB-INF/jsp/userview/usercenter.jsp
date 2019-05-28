@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>图书商城</title>
+    <title>在线书城</title>
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
     <link href="resources/css/layui.css" rel="stylesheet">
@@ -82,6 +82,8 @@
                         <li>待收货</li>
                         <li>待评价</li>
                         <li>待归还</li>
+                        <li>待确认</li>
+                        <li>已完成</li>
                     </ul>
                     <div class="layui-tab-content" style="height: auto;">
                         <div class="layui-tab-item layui-show" id="state1">
@@ -90,6 +92,8 @@
                         <div class="layui-tab-item" id="state3"></div>
                         <div class="layui-tab-item" id="state4"></div>
                         <div class="layui-tab-item" id="state5"></div>
+                        <div class="layui-tab-item" id="state6"></div>
+                        <div class="layui-tab-item" id="state7"></div>
                     </div>
                 </div>
             </div>
@@ -501,7 +505,8 @@
         showAllMessages();
         showAllFriends();
         showAllApply();
-
+        findSureOrder();
+        findFinishSecOrder();
     })
 
     function showAllApply() {
@@ -730,6 +735,7 @@
                         }
                         layer.close(index);
                         findReadyToEvaluateOrder();
+                        findFinishOrder();
                         $("#evaReset").click();
                         cleanImgsPreview();
                     });
@@ -1134,6 +1140,7 @@
                     str = str + "<div class='layui-collapse' lay-accordion=''>";
                     for (var i = 0; i < data.length; i++) {
                         var date = new Date(data[i].orderDate).toLocaleString();
+                        var date1 = new Date(data[i].orderOverTime).toLocaleString();
                         str = str
                             + "<div class='layui-colla-item'>"
                             + "<h2 class='layui-colla-title'>订单编号："
@@ -1146,7 +1153,7 @@
                             + "&nbsp;&nbsp;收货地址："
                             + data[i].orderAddress
                             + "&nbsp;电话：" + data[i].orderPhone + "</h4>"
-                            + "<div class='layui-form'><table class='layui-table'><thead><tr><th>商品名称</th><th>价格</th><th>数量</th><th>小计</th></tr>"
+                            + "<div class='layui-form'><table class='layui-table'><thead><tr><th>商品名称</th><th>价格</th><th>数量</th><th>还书日期</th><th>小计</th></tr>"
                             + "</thead><tbody>";
                         var arr = data[i].detailList;
                         for (var t = 0; t < arr.length; t++) {
@@ -1159,7 +1166,9 @@
                                 + arr[t].detailGoods.goodsPrice
                                 + "</td><td>"
                                 + arr[t].detailNum
-                                + "台</td><td>"
+                                + "本</td><td>"
+                                + date1
+                                + "</td><td>"
                                 + arr[t].detailGoods.goodsPrice
                                 * arr[t].detailNum + "元</td>"
                                 + "</tr>";
@@ -1171,6 +1180,121 @@
                     str = str + "</div>";
                 }
                 $("#state2").html(str);
+                element.render();
+            }
+        });
+    }
+    function findSureOrder() {
+        $.ajax({
+            type: "post",
+            url: "order/findSureOrder",
+            dataType: "json",
+            success: function (data) {
+                str = "";
+                if (data == null || data == "") {
+                    str = str + "<h2>暂无相关订单信息</h2>"
+                } else {
+                    str = str + "<div class='layui-collapse' lay-accordion=''>";
+                    for (var i = 0; i < data.length; i++) {
+                        var date = new Date(data[i].orderDate).toLocaleString();
+                        var date1 = new Date(data[i].orderOverTime).toLocaleString();
+                        str = str
+                            + "<div class='layui-colla-item'>"
+                            + "<h2 class='layui-colla-title'>订单编号："
+                            + data[i].orderId
+                            + "&nbsp;&nbsp;总价："
+                            + data[i].orderPrice
+                            + "元&nbsp;订单日期：" + date + "</h2>"
+                            + "<div class='layui-colla-content'><h4>收货人："
+                            + data[i].orderUserName
+                            + "&nbsp;&nbsp;收货地址："
+                            + data[i].orderAddress
+                            + "&nbsp;电话：" + data[i].orderPhone + "</h4>"
+                            + "<div class='layui-form'><table class='layui-table'><thead><tr><th>商品名称</th><th>价格</th><th>数量</th><th>还书日期</th><th>小计</th></tr>"
+                            + "</thead><tbody>";
+                        var arr = data[i].detailList;
+                        for (var t = 0; t < arr.length; t++) {
+                            str = str
+                                + "<tr><td><a href='goods/detail?goodsId="
+                                + arr[t].detailGoods.goodsId
+                                + "'>"
+                                + arr[t].detailGoods.goodsName
+                                + "</a></td>" + "<td>"
+                                + arr[t].detailGoods.goodsPrice
+                                + "</td><td>"
+                                + arr[t].detailNum
+                                + "本</td><td>"
+                                + date1
+                                + "</td><td>"
+                                + arr[t].detailGoods.goodsPrice
+                                * arr[t].detailNum + "元</td>"
+                                + "</tr>";
+                        }
+                        str = str
+                            + "</tbody></table></div>"
+                            + "</div></div>";
+                    }
+                    str = str + "</div>";
+                }
+                $("#state6").html(str);
+                element.render();
+            }
+        });
+    }
+
+    function findFinishSecOrder() {
+        $.ajax({
+            type: "post",
+            url: "order/findFinishSecOrder",
+            dataType: "json",
+            success: function (data) {
+                str = "";
+                if (data == null || data == "") {
+                    str = str + "<h2>暂无相关订单信息</h2>"
+                } else {
+                    str = str + "<div class='layui-collapse' lay-accordion=''>";
+                    for (var i = 0; i < data.length; i++) {
+                        var date = new Date(data[i].orderDate).toLocaleString();
+                        var date1 = new Date(data[i].orderOverTime).toLocaleString();
+                        str = str
+                            + "<div class='layui-colla-item'>"
+                            + "<h2 class='layui-colla-title'>订单编号："
+                            + data[i].orderId
+                            + "&nbsp;&nbsp;总价："
+                            + data[i].orderPrice
+                            + "元&nbsp;订单日期：" + date + "</h2>"
+                            + "<div class='layui-colla-content'><h4>收货人："
+                            + data[i].orderUserName
+                            + "&nbsp;&nbsp;收货地址："
+                            + data[i].orderAddress
+                            + "&nbsp;电话：" + data[i].orderPhone + "</h4>"
+                            + "<div class='layui-form'><table class='layui-table'><thead><tr><th>商品名称</th><th>价格</th><th>数量</th><th>还书日期</th><th>小计</th></tr>"
+                            + "</thead><tbody>";
+                        var arr = data[i].detailList;
+                        for (var t = 0; t < arr.length; t++) {
+                            str = str
+                                + "<tr><td><a href='goods/detail?goodsId="
+                                + arr[t].detailGoods.goodsId
+                                + "'>"
+                                + arr[t].detailGoods.goodsName
+                                + "</a></td>" + "<td>"
+                                + arr[t].detailGoods.goodsPrice
+                                + "</td><td>"
+                                + arr[t].detailNum
+                                + "本</td><td>"
+                                + date1
+                                + "</td><td>"
+                                + arr[t].detailGoods.goodsPrice
+                                * arr[t].detailNum + "元</td>"
+                                + "</tr>";
+                        }
+                        str = str
+                            + "</tbody></table></div>"
+                            + "</div></div>";
+                    }
+                    str = str + "</div>";
+                }
+                $("#state7").html(str);
                 element.render();
             }
         });
@@ -1189,6 +1313,7 @@
                     str = str + "<div class='layui-collapse' lay-accordion=''>";
                     for (var i = 0; i < data.length; i++) {
                         var date = new Date(data[i].orderDate).toLocaleString();
+                        var date1 = new Date(data[i].orderOverTime).toLocaleString();
                         str = str
                             + "<div class='layui-colla-item'>"
                             + "<h2 class='layui-colla-title'>订单编号："
@@ -1201,10 +1326,11 @@
                             + "&nbsp;&nbsp;收货地址："
                             + data[i].orderAddress
                             + "&nbsp;电话：" + data[i].orderPhone + "&nbsp;快递单号" + data[i].orderExpressNo + "</h4>"
-                            + "<div class='layui-form'><table class='layui-table'><thead><tr><th>商品名称</th><th>价格</th><th>数量</th><th>小计</th></tr>"
+                            + "<div class='layui-form'><table class='layui-table'><thead><tr><th>商品名称</th><th>价格</th><th>数量</th><th>归还时间</th><th>小计</th></tr>"
                             + "</thead><tbody>";
                         var arr = data[i].detailList;
                         for (var t = 0; t < arr.length; t++) {
+
                             str = str
                                 + "<tr><td><a href='goods/detail?goodsId="
                                 + arr[t].detailGoods.goodsId
@@ -1215,6 +1341,8 @@
                                 + "</td><td>"
                                 + arr[t].detailNum
                                 + "本</td><td>"
+                                + date1
+                                + "</td><td>"
                                 + arr[t].detailGoods.goodsPrice
                                 * arr[t].detailNum + "元</td>"
                                 + "</tr>";
@@ -1269,6 +1397,7 @@
                     str = str + "<div class='layui-collapse' lay-accordion=''>";
                     for (var i = 0; i < data.length; i++) {
                         var date = new Date(data[i].orderDate).toLocaleString();
+                        var date1 = new Date(data[i].orderOverTime).toLocaleString();
                         str = str
                             + "<div class='layui-colla-item'>"
                             + "<h2 class='layui-colla-title'>订单编号："
@@ -1281,7 +1410,7 @@
                             + "&nbsp;&nbsp;收货地址："
                             + data[i].orderAddress
                             + "&nbsp;电话：" + data[i].orderPhone + "&nbsp;快递单号" + data[i].orderExpressNo + "</h4>"
-                            + "<div class='layui-form'><table class='layui-table'><thead><tr><th>商品名称</th><th>价格</th><th>数量</th><th>小计</th></tr>"
+                            + "<div class='layui-form'><table class='layui-table'><thead><tr><th>商品名称</th><th>价格</th><th>数量</th><th>归还时间</th><th>小计</th></tr>"
                             + "</thead><tbody>";
                         var arr = data[i].detailList;
                         for (var t = 0; t < arr.length; t++) {
@@ -1295,6 +1424,8 @@
                                 + "</td><td>"
                                 + arr[t].detailNum
                                 + "本</td><td>"
+                                + date1
+                                + "</td><td>"
                                 + arr[t].detailGoods.goodsPrice
                                 * arr[t].detailNum + "元</td>"
                                 + "</tr>";
@@ -1422,7 +1553,7 @@
     function showProvince() {
         $.ajax({
             type: "post",
-            url: "proCityArea/findAllPro",
+            url: "proCityxiuArea/findAllPro",
             dataType: "json",
             success: function (data) {
                 var str = "<option value=''>请选择省</option>"

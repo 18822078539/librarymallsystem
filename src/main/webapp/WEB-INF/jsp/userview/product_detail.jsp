@@ -35,7 +35,7 @@
 		font-size:16px;
 	}
 	#img{
-		float:center;
+		/*float:center;*/
 		padding-top:35px;
 	}
 </style>
@@ -62,6 +62,8 @@
 					<dd><span class="badge">${requestScope.goods.goodsMemory.memoryName }</span></dd>
 					<dt><span class="badge">${requestScope.goods.goodsColor }</span></dt>
 					<dd><span class="badge">${requestScope.goods.goodsDesc}</span></dd>
+					<dt><span class="badge">库存:</span></dt>
+					<dd><span class="badge">${requestScope.goods.goodsNum}</span></dd>
 					<dt><span class="badge">购买数量</span></dt>
 					<dd><div style="height: 38px;padding-left:10px;padding-top:5px;">
 									<button id="redbtn" class="layui-btn layui-btn-radius" onclick="reduceCounts()"

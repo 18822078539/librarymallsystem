@@ -18,11 +18,13 @@ public class Order  implements Serializable{
 	private String orderAddress;
 	private String orderExpressNo;
 	private String orderBackENo;
+	@JsonFormat(pattern="yyyy-MM-dd")
+	private Date orderOverTime;
 	private List<OrderDetail> detailList;
 	
 	public Order(String orderId, Users orderUser, Date orderDate, Double orderPrice, Integer orderState,
 			String orderUserName, String orderPhone, String orderAddress, String orderExpressNo,
-			String orderBackENo,List<OrderDetail> detailList) {
+			String orderBackENo,Date orderOverTime,List<OrderDetail> detailList) {
 		super();
 		this.orderId = orderId;
 		this.orderUser = orderUser;
@@ -34,8 +36,18 @@ public class Order  implements Serializable{
 		this.orderAddress = orderAddress;
 		this.orderExpressNo = orderExpressNo;
 		this.orderBackENo = orderBackENo;
+		this.orderOverTime = orderOverTime;
 		this.detailList = detailList;
 	}
+
+	public Date getOrderOverTime() {
+		return orderOverTime;
+	}
+
+	public void setOrderOverTime(Date orderOverTime) {
+		this.orderOverTime = orderOverTime;
+	}
+
 	public String getOrderExpressNo() {
 		return orderExpressNo;
 	}

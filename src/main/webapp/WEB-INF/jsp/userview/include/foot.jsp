@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>图书商城</title>
+    <title>在线书城</title>
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
     <script src="resources/js/bootstrap.min.js"></script>
@@ -23,7 +23,7 @@
     <div class="foot-style">
       	Copyright © 2017 - 2018  杨明宇&陈航 版权所有
         <br/>
-        	图书商城
+        	在线书城
     </div>
     <!-- 结束啦 -->
 

@@ -121,5 +121,10 @@ public class OrderServiceImpl implements IOrderService {
 	public Integer backOrder(String orderId,String backENo) {
 		return orderMapper.backOrder(orderId,backENo);
 	}
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+	@Override
+	public Integer expOrder(String orderId) {
+		return orderMapper.expOrder(orderId);
+	}
 
 }
