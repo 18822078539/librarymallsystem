@@ -34,6 +34,12 @@
 			<form class="layui-form" action="user/updateUserInfo" method="post">
 				<input type="hidden" name="userId" value="${user.userId }">
 				<div class="layui-form-item">
+					<label class="layui-form-label">积分</label>
+					<div class="layui-input-block">
+						<label class="layui-form-label" style="width: 150px">${user.userScore }-${user.level}</label>
+					</div>
+				</div>
+				<div class="layui-form-item">
 					<label class="layui-form-label">用户名</label>
 					<div class="layui-input-block">
 						<input type="text" name="userName" id="userName" required
@@ -41,6 +47,7 @@
 							class="layui-input" />
 					</div>
 				</div>
+
 				<div class="layui-form-item">
 					<label class="layui-form-label">电话</label>
 					<div class="layui-input-block">

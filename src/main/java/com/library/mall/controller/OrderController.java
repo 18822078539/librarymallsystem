@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.library.mall.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,11 +43,6 @@ import com.library.mall.entity.Guess;
 import com.library.mall.entity.Order;
 import com.library.mall.entity.OrderDetail;
 import com.library.mall.entity.Users;
-import com.library.mall.service.IAddressService;
-import com.library.mall.service.ICartService;
-import com.library.mall.service.IGoodsService;
-import com.library.mall.service.IGuessService;
-import com.library.mall.service.IOrderService;
 import com.library.mall.util.AlipayConfig;
 import com.library.mall.util.OrderSearchVO;
 import com.library.mall.util.OrderVO;
@@ -64,6 +60,8 @@ public class OrderController {
 	private IAddressService addressService;
 	@Autowired
 	private IGuessService guessService;
+	@Autowired
+	private IUserService userService;
 	
 	@RequestMapping("takeOrder")
 	public String takeOrder(Integer[] goodslist,Integer addr,Model model,HttpServletRequest request){
@@ -223,9 +221,14 @@ public class OrderController {
 	}
 	@RequestMapping("expOrder")
 	@ResponseBody
-	public String expOrder(String orderId){
+	public String expOrder(String orderId,HttpServletRequest request){
 			Integer rs = orderService.expOrder(orderId);
+			HttpSession session = request.getSession();
+			Users user = (Users) session.getAttribute("user");
 			if(rs>0){
+				//同时用户积分增加30
+				user.setUserScore(user.getUserScore()+30);
+				userService.updateUserInfo(user);
 				return "success";
 			}else{
 				return "fail";

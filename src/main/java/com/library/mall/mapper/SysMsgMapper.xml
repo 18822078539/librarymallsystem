@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.mall.mapper.SysMsgMapper">
+	<resultMap type="SysMsg" id="BaseResult">
+		<id property="sysmsgId" column="sysmsg_id" javaType="java.lang.Integer" />
+		<result property="sendUser.userId" column="send_user" javaType="java.lang.Integer" />
+		<result property="askMsg" column="ask_msg" javaType="java.lang.String" />
+		<result property="answerMsg" column="answer_msg" javaType="java.lang.String" />
+
+	</resultMap>
+	<resultMap type="SysMsg" id="BaseResultJoinObj" extends="BaseResult">
+		<association property="sendUser" javaType="Users" column="send_user" select="com.library.mall.mapper.UserMapper.findUserById"></association>
+	</resultMap>
+
+	<insert id="saveSysMsg" parameterType="SysMsg">
+		insert into sysmsg(send_user,ask_msg,answer_msg)
+		values(#{sendUser.userId},#{askMsg},#{answerMsg})
+	</insert>
+	<delete id="deleteSysMsg" parameterType="java.lang.Integer">
+		delete from sysmsg where sysmsg_id=#{id}
+	</delete>
+	<select id="findAllSysMsgByUserId" parameterType="java.lang.Integer" resultMap="BaseResultJoinObj">
+		select * from sysmsg where send_user=#{id}
+	</select>
+	<select id="findAllSysMsg"  resultMap="BaseResultJoinObj">
+		select * from sysmsg
+	</select>
+
+	<select id="findAllBySplitPage" resultMap="BaseResultJoinObj">
+		select * from sysmsg
+	</select>
+	<select id="findAllSysMsgByLikeName" resultMap="BaseResultJoinObj" parameterType="java.lang.String">
+		select * from sysmsg where ask_msg like '%${value}%'
+	</select>
+
+	<update id="updateSysMsg" parameterType="SysMsg">
+		update sysmsg
+		<set>
+
+			<if test="answerMsg!=null">
+				answer_msg=#{answerMsg},
+			</if>
+
+		</set>
+		where sysmsg_id=#{sysmsgId}
+	</update>
+</mapper>

@@ -11,6 +11,26 @@ public class Users  implements Serializable{
 	private Integer userState;
 	private String userImg;
 	private Integer applyNum;
+	//会员积分
+	private Integer userScore;
+	//会员等级
+	private String level;
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public Integer getUserScore() {
+		return userScore;
+	}
+
+	public void setUserScore(Integer userScore) {
+		this.userScore = userScore;
+	}
 
 	public Integer getApplyNum() {
 		return applyNum;
@@ -63,7 +83,7 @@ public class Users  implements Serializable{
 		this.userImg = userImg;
 	}
 	public Users(Integer userId, String userName, String userPass, String userPhone, String userEmail,
-			Integer userState, String userImg) {
+			Integer userState, String userImg,Integer userScore) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -72,6 +92,7 @@ public class Users  implements Serializable{
 		this.userEmail = userEmail;
 		this.userState = userState;
 		this.userImg = userImg;
+		this.userScore = userScore;
 	}
 	public Users() {
 		super();

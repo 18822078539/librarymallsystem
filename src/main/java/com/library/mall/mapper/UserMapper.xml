@@ -11,6 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="userEmail" column="user_email" javaType="java.lang.String" />
 		<result property="userState" column="user_state" javaType="java.lang.Integer" />
 		<result property="userImg" column="user_img" javaType="java.lang.String" />
+		<result property="userScore" column="user_score" javaType="java.lang.Integer" />
+
 	</resultMap>
 	<select id="findUserById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
 		select * from users where user_id=#{id}

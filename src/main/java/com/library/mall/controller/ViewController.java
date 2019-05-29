@@ -92,4 +92,8 @@ public class ViewController {
 	public String toTypeList(){
 		return "admin/typelist";
 	}
+	@RequestMapping("sysmsg")
+	public String toSysMsg(){
+		return "admin/sysmsglist";
+	}
 }

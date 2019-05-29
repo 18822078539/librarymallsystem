@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.mall.mapper.SubscribeMapper">
+	<resultMap type="Subscribe" id="BaseResult">
+		<id property="subscribeId" column="subscribe_id" javaType="java.lang.Integer" />
+		<result property="subscribeGoods.goodsId" column="subscribe_goods" javaType="java.lang.Integer"  />
+		<result property="subscribeUser.userId" column="subscribe_user" javaType="java.lang.Integer" />
+	</resultMap>
+	<resultMap type="Subscribe" id="BaseResultJoinObj" extends="BaseResult">
+		<association property="subscribeGoods" javaType="Goods" column="subscribe_goods" select="com.library.mall.mapper.GoodsMapper.findGoodsById"></association>
+		<association property="subscribeUser" javaType="Users" column="subscribe_user" select="com.library.mall.mapper.UserMapper.findUserById"></association>
+	</resultMap>
+
+	<insert id="saveSubscribe" parameterType="Subscribe">
+		insert into subscribe(subscribe_goods,subscribe_user)
+		values(#{subscribeGoods.goodsId},#{subscribeUser.userId})
+	</insert>
+	<delete id="deleteSubscribe" parameterType="java.lang.Integer">
+		delete from subscribe where subscribe_id=#{id}
+	</delete>
+	<select id="findAllSubscribeByUserId" parameterType="java.lang.Integer" resultMap="BaseResultJoinObj">
+		select * from subscribe where subscribe_user=#{id}
+	</select>
+
+	<select id="findAllSubscribeByUserIdAndGoodsId" parameterType="java.lang.Integer" resultMap="BaseResult">
+		select * from subscribe where subscribe_user=#{0} and subscribe_goods=#{1}
+	</select>
+
+</mapper>

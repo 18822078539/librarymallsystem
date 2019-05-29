@@ -56,6 +56,10 @@
                         href="view/usercenter/#section6">书友圈</a></li>
                 <li class="list-group-item-diy"><a
                         href="view/usercenter/#section7">好友申请<span class="layui-badge">${user.applyNum}</span></a></li>
+                <li class="list-group-item-diy"><a
+                        href="view/usercenter/#section8">我的预约</a></li>
+                <li class="list-group-item-diy"><a
+                        href="view/usercenter/#section9">联系客服</a></li>
             </ul>
         </div>
         <!-- 控制内容 -->
@@ -264,7 +268,53 @@
                     </div>
                 </table>
             </div>
+            <div class="col-md-12">
+                <hr/>
+                <h1>
+                    <a name="section8">我的预约</a>
+                </h1>
+                <hr/>
+                <div class="col-lg-12 col-md-12 col-sm-12" id="subscribeBooks"></div>
+                <br/>
+            </div>
+            <div class="col-md-12">
+                <h1>
+                    <a name="section6">联系客服</a>
+                </h1>
+                <hr/>
+                <table class="table table-hover center">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">联系客服</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <form class="layui-form" action="sysmsg/saveSysMsg">
+                                    <div class="layui-card">
+                                        <div class="layui-card-body">
+                                            <div class="layui-form-item layui-form-text">
+                                                <label class="layui-form-label">我的问题</label>
+                                                <div class="layui-input-block">
+                                                    <textarea placeholder="请输入内容" class="layui-textarea"
+                                                              name="askMsg"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <button class="layui-btn" type="submit">发表</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div id="sysmsg">
 
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -470,7 +520,7 @@
                         str = str + "<option value='" + data[i].cityId + "'>" + data[i].cityName + "</option>";
                     }
                     $("#cityData").html(str);
-                    form.render();
+                    //form.render();
                 }
             });
         });
@@ -486,13 +536,14 @@
                         str = str + "<option value='" + data[i].areaId + "'>" + data[i].areaName + "</option>";
                     }
                     $("#areaData").html(str);
-                    form.render();
+                   // form.render();
                 }
             });
         });
     });
     $(function () {
         showFavorite();
+        showSubscribe();
         showReadyPayOrder();
         findReadyToDeliverOrder();
         findReadyToReceiveOrder();
@@ -505,6 +556,7 @@
         showAllMessages();
         showAllFriends();
         showAllApply();
+        showAllSysMsg();
         findSureOrder();
         findFinishSecOrder();
     })
@@ -576,6 +628,33 @@
                     html += str;
                 }
                 $("#readSay").html("").append(html);
+
+            } else {
+            }
+        });
+    }
+
+    function showAllSysMsg() {
+        $.post("sysmsg/findAllByUser", {pageSize:30,pageNum:1
+        }, function (r) {
+            if (r.code === 0) {
+                console.info(r.msg);
+                var html = "";
+                for (var i = 0; i < r.msg.length; i++) {
+                    var item = r.msg[i];
+                    var ans = item.answerMsg==null?"暂无":item.answerMsg;
+                    var str = "<div class=\"layui-card\">" +
+                        "<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\"" +
+                        "data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"" +
+                        "aria-expanded=\"false\"><div style=\"margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;\"><img src=\"upload/" + item.sendUser.userImg + "\" style=\"width:30px;height:30px;\" class=\"layui-nav-img\"></div>&nbsp;&nbsp;" + item.sendUser.userName + "<span class=\"caret\"></span></a></li>" +
+                        "<div>" + item.askMsg +
+                        "</div>" +
+                        "<div>管理员答复：" + ans +
+                        "</div>" +
+                        "</div>";
+                    html += str;
+                }
+                $("#sysmsg").html("").append(html);
 
             } else {
             }
@@ -661,7 +740,7 @@
             success: function (layero, index) {
                 var body = layer.getChildFrame('body', index); //得到子页面层的BODY
                 $("#receiveid").val(friendid);
-                form.render();
+                //form.render();
                 body.find('#hidValue').val(index); //将本层的窗口索引传给子页面层的hidValue中
             },
             btn: ['留言', '取消'],
@@ -723,7 +802,7 @@
                 layero.addClass('layui-form');//添加form标识
                 layero.find('.layui-layer-btn0').attr('lay-filter', 'fromContent').attr('lay-submit', '');//将按钮弄成能提交的
                 $("#evaOrderId").val(id);
-                form.render();
+                //form.render();
             },
             yes: function (index, layero) {
                 form.on('submit(fromContent)', function (data) {
@@ -773,7 +852,7 @@
                         $("#addrZipcode").val(data.addrZipcode);
                         layero.addClass('layui-form');//添加form标识
                         layero.find('.layui-layer-btn0').attr('lay-filter', 'fromContent').attr('lay-submit', '');//将按钮弄成能提交的
-                        form.render();
+                        //form.render();
                     },
                     yes: function (index, layero) {
                         form.on('submit(fromContent)', function (data) {
@@ -808,7 +887,7 @@
                 }
                 $("#cityData").html(str);
                 $("#cityData").val(cityId);
-                form.render();
+                //form.render();
             }
         });
     }
@@ -826,7 +905,7 @@
                 }
                 $("#areaData").html(str);
                 $("#areaData").val(areaId);
-                form.render();
+                //form.render();
             }
         });
     }
@@ -870,7 +949,7 @@
                 layero.addClass('layui-form');//添加form标识
                 layero.find('.layui-layer-btn0').attr('lay-filter', 'fromContent').attr('lay-submit', '');//将按钮弄成能提交的
                 $("#resetBtn").click();
-                form.render();
+                //form.render();
             },
             yes: function (index, layero) {
                 form.on('submit(fromContent)', function (data) {
@@ -990,6 +1069,68 @@
                 }
                 var str = str + "</ul></div>";
                 $("#productArea").html(str);
+            }
+        });
+    }
+
+    /**
+     * 显示预约信息
+     */
+    function showSubscribe() {
+        $.ajax({
+            type: "post",
+            url: "subscribe/findSubscribes",
+            dataType: "json",
+            success: function (arr) {
+                var str = "<div style='padding-left:16px;' class='span16'><ul>";
+                for (var i = 0; i < arr.length; i++) {
+                    if ((i + 1) % 4 != 0) {
+                        str = str
+                            + "<li><a href='goods/detail?goodsId="
+                            + arr[i].subscribeGoods.goodsId
+                            + "'>"
+                            + "<img style='margin-bottom:2px;margin-top:10px;' src='upload/" + arr[i].subscribeGoods.goodsImg + "' /><p class='goods-title'>"
+                            + arr[i].subscribeGoods.goodsName
+                            + "</p>"
+                            + "<p class='goods-desc'>"
+                            + arr[i].subscribeGoods.goodsDesc
+                            + "</p></a><p><span class='newprice'>"
+                            + arr[i].subscribeGoods.goodsPrice
+                            + "元</span>&nbsp;"
+                            + "</p>";
+                            if(arr[i].subscribeGoods.goodsNum>0){
+                                str += "<button onclick='addToCart("
+                                    + arr[i].subscribeGoods.goodsId
+                                    + ")'  class='layui-btn layui-btn-sm'>加入借书单</button>";
+                            }
+
+                            str+="</li>";
+                    } else {
+                        str = str
+                            + "<li class='brick4'><a href='goods/detail?goodsId="
+                            + arr[i].subscribeGoods.goodsId
+                            + "'>"
+                            + "<img style='margin-bottom:2px;margin-top:10px;' src='upload/" + arr[i].subscribeGoods.goodsImg + "' /><p class='goods-title'>"
+                            + arr[i].subscribeGoods.goodsName
+                            + "</p>"
+                            + "<p class='goods-desc'>"
+                            + arr[i].subscribeGoods.goodsDesc
+                            + "</p></a><p><span class='newprice'>"
+                            + arr[i].subscribeGoods.goodsPrice
+                            + "元</span>&nbsp;"
+                            + "</p>";
+                        if(arr[i].subscribeGoods.goodsNum>0){
+                            str += "<button onclick='addToCart("
+                                + arr[i].subscribeGoods.goodsId
+                                + ")'  class='layui-btn layui-btn-sm'>加入借书单</button>";
+                        }
+
+                        str+="</li>";
+                    }
+                }
+                var str = str + "</ul></div>";
+                $("#subscribeBooks").html(str);
+//                element.render();
             }
         });
     }
@@ -1118,7 +1259,7 @@
                 }
 
                 $("#state1").html(str);
-                element.render();
+                //element.render();
             }
         });
     }
@@ -1180,7 +1321,7 @@
                     str = str + "</div>";
                 }
                 $("#state2").html(str);
-                element.render();
+               // element.render();
             }
         });
     }
@@ -1237,7 +1378,7 @@
                     str = str + "</div>";
                 }
                 $("#state6").html(str);
-                element.render();
+                //element.render();
             }
         });
     }
@@ -1295,7 +1436,7 @@
                     str = str + "</div>";
                 }
                 $("#state7").html(str);
-                element.render();
+                //element.render();
             }
         });
     }
@@ -1354,7 +1495,7 @@
                     str = str + "</div>";
                 }
                 $("#state3").html(str);
-                element.render();
+                //element.render();
             }
         });
     }
@@ -1437,7 +1578,7 @@
                     str = str + "</div>";
                 }
                 $("#state4").html(str);
-                element.render();
+                //element.render();
             }
         });
     }
@@ -1492,7 +1633,7 @@
                     str = str + "</div>";
                 }
                 $("#state5").html(str);
-                element.render();
+                //element.render();
             }
         });
     }
@@ -1561,7 +1702,7 @@
                     str = str + "<option value='" + data[i].provinceId + "'>" + data[i].provinceName + "</option>"
                 }
                 $("#proData").html(str);
-                form.render();
+                //form.render();
             }
         });
     }

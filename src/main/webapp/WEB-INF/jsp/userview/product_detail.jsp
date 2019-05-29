@@ -76,11 +76,22 @@
 									<button id="addbtn" onclick="addCounts()" class="layui-btn layui-btn-radius"
 										style="float: left;">+</button>
 								</div></dd>
-					<dt style="padding-top:20px;"><button
+					<dt style="padding-top:20px;">
+						<c:if test="${requestScope.goods.goodsNum gt 0}">
+						<button
 							class="layui-btn layui-btn-lg layui-btn-radius"
 							onclick="addToCart()">
 							<i class="layui-icon">&#xe608;</i>加入借书单
-						</button></dt>
+						</button>
+						</c:if>
+						<c:if test="${requestScope.goods.goodsNum le 0}">
+							<button
+									class="layui-btn layui-btn-lg layui-btn-radius"
+									onclick="addToSubscribe()">
+								<i class="layui-icon">&#xe608;</i>预约
+							</button>
+						</c:if>
+					</dt>
 					<dd style="padding-top:20px;padding-left:10px;width:320px;">
 					<button	class="layui-btn layui-btn-lg layui-btn-radius" id="fav"
 							onclick="addToFavorite()">
@@ -217,6 +228,28 @@
 				}
 			});
 		}
+        function addToSubscribe() {
+            var goodsId = $("#goodsId").val();
+            $.ajax({
+                type : "post",
+                url : "subscribe/addToSubscribe",
+                data : "goodsId=" + goodsId,
+                success : function(data) {
+                    if (data == "success") {
+                        layer.msg('预约成功！', {
+                            icon : 1,
+                            time : 2000
+                        });
+                        showSubscribe();
+                    } else {
+                        layer.msg('预约失败！', {
+                            icon : 5,
+                            time : 2000
+                        });
+                    }
+                }
+            });
+        }
 		function addToFavorite(){
 			var goodsId=$("#goodsId").val();
 			$.ajax({

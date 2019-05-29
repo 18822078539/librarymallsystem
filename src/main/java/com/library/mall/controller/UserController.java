@@ -70,6 +70,13 @@ public class UserController {
 	public String preModifyInfo(HttpServletRequest request,Model model){
 		HttpSession session = request.getSession();
 		Users user = (Users) session.getAttribute("user");
+		if(user.getUserScore()<100){
+			user.setLevel("铜牌会员");
+		}else if(user.getUserScore()<1000){
+			user.setLevel("银牌会员");
+		}else{
+			user.setLevel("金牌会员");
+		}
 		model.addAttribute("user", user);
 		return "userview/amend_info";
 	}
@@ -174,6 +181,7 @@ public class UserController {
 	@ResponseBody
 	public String register(Users user){
 		user.setUserPass(MD5Utils.passToMD5(user.getUserPass()));
+		user.setUserScore(0);
 		Integer rs = userService.addUser(user);
 		if(rs>0){
 			return "success";
