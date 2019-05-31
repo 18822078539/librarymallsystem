@@ -96,4 +96,8 @@ public class ViewController {
 	public String toSysMsg(){
 		return "admin/sysmsglist";
 	}
+	@RequestMapping("devoteTask")
+	public String toDevoteTask(){
+		return "admin/devotetasklist";
+	}
 }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.mall.mapper.DevoteTaskMapper">
+	<resultMap type="DevoteTask" id="BaseResultMap">
+		<id property="taskId" column="task_id" />
+		<result property="taskTitle" column="task_title" />
+		<result property="taskScore" column="task_score" />
+		<result property="taskState" column="task_state" />
+	</resultMap>
+	<insert id="addDevoteTask" parameterType="DevoteTask">
+		insert into devotetask(task_title,task_score,task_state)
+		values(#{taskTitle},#{taskScore},0)
+	</insert>
+	<update id="deleteDevoteTask" parameterType="java.lang.Integer">
+		update devotetask set task_state=-1 where task_id=#{id}
+	</update>
+	<update id="updateDevoteTask" parameterType="DevoteTask">
+		update devotetask
+		<set>
+			<if test="taskTitle!=null">
+				task_title=#{taskTitle},
+			</if>
+			<if test="taskScore!=null">
+				task_score=#{taskScore},
+			</if>
+		</set>
+		where task_id=#{taskId}
+	</update>
+	<select id="findDevoteTaskById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select * from devotetask where task_id=#{id}
+	</select>
+	<select id="findDevoteTasks" resultMap="BaseResultMap">
+		select * from devotetask where task_state&gt;=0
+	</select>
+	<select id="findAllBySplitPage" resultMap="BaseResultMap">
+		select * from devotetask where task_state &gt;= 0
+	</select>
+	<select id="findAllDevoteTaskByLikeName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select * from devotetask where task_state &gt;= 0  and task_title like '%${value}%'
+	</select>
+	<update id="changeTaskState" parameterType="java.lang.Integer">
+		update devotetask set task_state=#{0} where task_id=#{1}
+	</update>
+</mapper>

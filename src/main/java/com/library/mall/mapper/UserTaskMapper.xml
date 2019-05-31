@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.mall.mapper.UserTaskMapper">
+	<resultMap type="UserTask" id="BaseResult">
+		<id property="userTaskId" column="usertask_id" javaType="java.lang.Integer" />
+		<result property="userTaskTask.taskId" column="usertask_task" javaType="java.lang.Integer"  />
+		<result property="userTaskTask.userId" column="usertask_user" javaType="java.lang.Integer" />
+	</resultMap>
+	<resultMap type="UserTask" id="BaseResultJoinObj" extends="BaseResult">
+		<association property="userTaskTask" javaType="DevoteTask" column="usertask_task" select="com.library.mall.mapper.DevoteTaskMapper.findDevoteTaskById"></association>
+		<association property="userTaskUser" javaType="Users" column="usertask_user" select="com.library.mall.mapper.UserMapper.findUserById"></association>
+	</resultMap>
+
+	<insert id="saveUserTask" parameterType="UserTask">
+		insert into usertask(usertask_task,usertask_user)
+		values(#{userTaskTask.taskId},#{userTaskUser.userId})
+	</insert>
+	<delete id="deleteUserTask" parameterType="java.lang.Integer">
+		delete from usertask where usertask_id=#{id}
+	</delete>
+	<select id="findAllUserTaskByUserId" parameterType="java.lang.Integer" resultMap="BaseResultJoinObj">
+		select * from usertask where usertask_user=#{id}
+	</select>
+
+	<select id="findAllUserTaskByUserIdAndTaskId" parameterType="java.lang.Integer" resultMap="BaseResultJoinObj">
+		select * from usertask where usertask_user=#{0} and usertask_task=#{1}
+	</select>
+
+</mapper>

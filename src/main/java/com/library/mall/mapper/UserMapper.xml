@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="userState" column="user_state" javaType="java.lang.Integer" />
 		<result property="userImg" column="user_img" javaType="java.lang.String" />
 		<result property="userScore" column="user_score" javaType="java.lang.Integer" />
+		<result property="userDevote" column="user_devote" javaType="java.lang.Integer" />
 
 	</resultMap>
 	<select id="findUserById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -43,7 +44,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				user_email=#{userEmail},
 			</if>
 			<if test="userImg!=null">
-				user_img=#{userImg}
+				user_img=#{userImg},
+			</if>
+			<if test="userScore!=null">
+				user_score=#{userScore},
+			</if>
+			<if test="userDevote!=null">
+				user_devote=#{userDevote}
 			</if>
 		</set>
 		where user_id=#{userId}

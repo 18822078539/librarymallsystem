@@ -16,6 +16,17 @@ public class Users  implements Serializable{
 	//会员等级
 	private String level;
 
+	//会员贡献值
+	private Integer userDevote;
+
+	public Integer getUserDevote() {
+		return userDevote;
+	}
+
+	public void setUserDevote(Integer userDevote) {
+		this.userDevote = userDevote;
+	}
+
 	public String getLevel() {
 		return level;
 	}
@@ -83,7 +94,7 @@ public class Users  implements Serializable{
 		this.userImg = userImg;
 	}
 	public Users(Integer userId, String userName, String userPass, String userPhone, String userEmail,
-			Integer userState, String userImg,Integer userScore) {
+			Integer userState, String userImg,Integer userScore,Integer userDevote) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -93,6 +104,7 @@ public class Users  implements Serializable{
 		this.userState = userState;
 		this.userImg = userImg;
 		this.userScore = userScore;
+		this.userDevote = userDevote;
 	}
 	public Users() {
 		super();

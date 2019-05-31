@@ -60,6 +60,8 @@
                         href="view/usercenter/#section8">我的预约</a></li>
                 <li class="list-group-item-diy"><a
                         href="view/usercenter/#section9">联系客服</a></li>
+                <li class="list-group-item-diy"><a
+                        href="view/usercenter/#section9">我的贡献</a></li>
             </ul>
         </div>
         <!-- 控制内容 -->
@@ -315,6 +317,52 @@
 
                 </table>
             </div>
+            <div class="col-md-12">
+                <h1>
+                    <a name="section9">我的贡献</a>
+                </h1>
+                <hr/>
+                <table class="table table-hover center">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">贡献任务</li>
+                            <li>贡献图书</li>
+                        </ul>
+
+
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <div id="devoteTask">
+
+                                </div>
+                            </div>
+                            <div class="layui-tab-item">
+                                <form class="layui-form" action="shareBook/share">
+                                    <div class="layui-card">
+                                        <div class="layui-card-body">
+                                            <div class="layui-form-item layui-form-text">
+                                                <label class="layui-form-label">图书名称</label>
+                                                <div class="layui-input-block">
+                                                    <textarea placeholder="请输入内容" class="layui-textarea"
+                                                              name="bookName"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <button class="layui-btn" type="submit">上传</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div id="devoteBooks">
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -536,7 +584,7 @@
                         str = str + "<option value='" + data[i].areaId + "'>" + data[i].areaName + "</option>";
                     }
                     $("#areaData").html(str);
-                   // form.render();
+                    // form.render();
                 }
             });
         });
@@ -559,7 +607,74 @@
         showAllSysMsg();
         findSureOrder();
         findFinishSecOrder();
+        showAllTask();
+        showShareBooks();
     })
+
+    function showShareBooks() {
+        $.post("shareBook/findBySplitPage", {
+            pageSize: 30,
+            pageNum: 1
+        }, function (r) {
+            if (r.code === 0) {
+                console.info(r.msg);
+                var html = "";
+                for (var i = 0; i < r.msg.length; i++) {
+                    var item = r.msg[i];
+                    var str = "<div class=\"layui-card\">" +
+                        "<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\"" +
+                        "data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"" +
+                        "aria-expanded=\"false\"><div style=\"margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;\"><img src=\"upload/" + item.shareBookUser.userImg + "\" style=\"width:30px;height:30px;\" class=\"layui-nav-img\"></div>&nbsp;&nbsp;" + item.shareBookUser.userName + "<span class=\"caret\"></span></a></li>" +
+                        "<div>" + item.shareBookName +
+                        "</div>" +
+                        "</div>";
+                    html += str;
+                }
+                $("#devoteBooks").html("").append(html);
+
+            } else {
+            }
+        });
+    }
+
+    function showAllTask() {
+        $.post("devoteTask/findBySplitPage", {
+            pageSize: 30,
+            pageNum: 1
+        }, function (r) {
+            if (r.code === 0) {
+                console.info(r.msg);
+                var html = "";
+                for (var i = 0; i < r.msg.length; i++) {
+                    var item = r.msg[i];
+                    var str = "<div class=\"layui-card\">" +
+                        "<div>任务描述：" + item.taskTitle +
+                        "</div>" +
+                        "<div>任务分值：" + item.taskScore + " <button class=\"layui-btn layui-btn-xs\" onclick='finishtask(" + item.taskId +","+item.taskScore+ ")'>完成</button>" +
+                        "</div>" +
+                        "</div>";
+                    html += str;
+                }
+                $("#devoteTask").html("").append(html);
+
+            } else {
+            }
+        });
+    }
+
+    function finishtask(taskId,taskScore) {
+        $.post("userTask/finishTask", {
+            taskId: taskId,
+            taskScore:taskScore
+        }, function (r) {
+            if (r === 'success') {
+                parent.layer.msg('已完成，贡献值更新成功', {icon: 1, shade: 0.4, time: 1000});
+                location.reload();
+            } else {
+                parent.layer.msg('操作异常', {icon: 1, shade: 0.4, time: 1000});
+            }
+        })
+    }
 
     function showAllApply() {
         $.post("friendMap/findBySplitPage", {
@@ -635,14 +750,15 @@
     }
 
     function showAllSysMsg() {
-        $.post("sysmsg/findAllByUser", {pageSize:30,pageNum:1
+        $.post("sysmsg/findAllByUser", {
+            pageSize: 30, pageNum: 1
         }, function (r) {
             if (r.code === 0) {
                 console.info(r.msg);
                 var html = "";
                 for (var i = 0; i < r.msg.length; i++) {
                     var item = r.msg[i];
-                    var ans = item.answerMsg==null?"暂无":item.answerMsg;
+                    var ans = item.answerMsg == null ? "暂无" : item.answerMsg;
                     var str = "<div class=\"layui-card\">" +
                         "<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\"" +
                         "data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"" +
@@ -1098,13 +1214,13 @@
                             + arr[i].subscribeGoods.goodsPrice
                             + "元</span>&nbsp;"
                             + "</p>";
-                            if(arr[i].subscribeGoods.goodsNum>0){
-                                str += "<button onclick='addToCart("
-                                    + arr[i].subscribeGoods.goodsId
-                                    + ")'  class='layui-btn layui-btn-sm'>加入借书单</button>";
-                            }
+                        if (arr[i].subscribeGoods.goodsNum > 0) {
+                            str += "<button onclick='addToCart("
+                                + arr[i].subscribeGoods.goodsId
+                                + ")'  class='layui-btn layui-btn-sm'>加入借书单</button>";
+                        }
 
-                            str+="</li>";
+                        str += "</li>";
                     } else {
                         str = str
                             + "<li class='brick4'><a href='goods/detail?goodsId="
@@ -1119,13 +1235,13 @@
                             + arr[i].subscribeGoods.goodsPrice
                             + "元</span>&nbsp;"
                             + "</p>";
-                        if(arr[i].subscribeGoods.goodsNum>0){
+                        if (arr[i].subscribeGoods.goodsNum > 0) {
                             str += "<button onclick='addToCart("
                                 + arr[i].subscribeGoods.goodsId
                                 + ")'  class='layui-btn layui-btn-sm'>加入借书单</button>";
                         }
 
-                        str+="</li>";
+                        str += "</li>";
                     }
                 }
                 var str = str + "</ul></div>";
@@ -1321,10 +1437,11 @@
                     str = str + "</div>";
                 }
                 $("#state2").html(str);
-               // element.render();
+                // element.render();
             }
         });
     }
+
     function findSureOrder() {
         $.ajax({
             type: "post",
@@ -1662,28 +1779,25 @@
             shadeClose: true,
             maxmin: false,
             area: ['600px;', '250px;'],    //窗体大小（宽,高）
-            content: "<div style='width:500px;padding-top:15px;'><div class='layui-form-item'><label class='layui-form-label'>订单编号</label>"+
-            "<div class='layui-input-block'><input type='text' name='orderId' id='orderId' style='background-color:#F8F8F8;' "+
-            " readonly='readonly' required lay-verify='required' value='"+id+"' class='layui-input' /></div></div>"+
-            "<div class='layui-form-item'><label class='layui-form-label'>快递单号</label><div class='layui-input-block'><input type='text' "+
+            content: "<div style='width:500px;padding-top:15px;'><div class='layui-form-item'><label class='layui-form-label'>订单编号</label>" +
+            "<div class='layui-input-block'><input type='text' name='orderId' id='orderId' style='background-color:#F8F8F8;' " +
+            " readonly='readonly' required lay-verify='required' value='" + id + "' class='layui-input' /></div></div>" +
+            "<div class='layui-form-item'><label class='layui-form-label'>快递单号</label><div class='layui-input-block'><input type='text' " +
             " id='backENo' required lay-verify='required' class='layui-input' /></div></div></div>",
-            success: function (layero, index)
-            {
+            success: function (layero, index) {
                 var body = layer.getChildFrame('body', index); //得到子页面层的BODY
                 body.find('#hidValue').val(index); //将本层的窗口索引传给子页面层的hidValue中
             },
-            btn:['归还','取消'],
-            yes: function(index, layero){
-                var no=$("#backENo").val();
-                $.post('order/backOrder',{orderId:id,backENo:no},function(msg){
-                    if (msg == 'success')
-                    {
-                        parent.layer.msg('归还成功', { icon: 1, shade: 0.4, time: 1000 });
+            btn: ['归还', '取消'],
+            yes: function (index, layero) {
+                var no = $("#backENo").val();
+                $.post('order/backOrder', {orderId: id, backENo: no}, function (msg) {
+                    if (msg == 'success') {
+                        parent.layer.msg('归还成功', {icon: 1, shade: 0.4, time: 1000});
                         findFinishOrder();
                     }
-                    else
-                    {
-                        parent.layer.msg('归还失败', { icon: 5, shade: 0.4, time: 1000 });
+                    else {
+                        parent.layer.msg('归还失败', {icon: 5, shade: 0.4, time: 1000});
                     }
                     layer.close(index);
                 });

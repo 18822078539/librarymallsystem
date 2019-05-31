@@ -182,6 +182,7 @@ public class UserController {
 	public String register(Users user){
 		user.setUserPass(MD5Utils.passToMD5(user.getUserPass()));
 		user.setUserScore(0);
+		user.setUserDevote(0);
 		Integer rs = userService.addUser(user);
 		if(rs>0){
 			return "success";

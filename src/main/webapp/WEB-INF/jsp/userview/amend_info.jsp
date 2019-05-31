@@ -40,6 +40,12 @@
 					</div>
 				</div>
 				<div class="layui-form-item">
+					<label class="layui-form-label">贡献值</label>
+					<div class="layui-input-block">
+						<label class="layui-form-label">${user.userDevote }</label>
+					</div>
+				</div>
+				<div class="layui-form-item">
 					<label class="layui-form-label">用户名</label>
 					<div class="layui-input-block">
 						<input type="text" name="userName" id="userName" required
