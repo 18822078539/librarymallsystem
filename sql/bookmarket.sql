@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 120.79.15.107
-Source Server Version : 50722
-Source Host           : 120.79.15.107:3306
+Source Server         : localhost
+Source Server Version : 50155
+Source Host           : localhost:3306
 Source Database       : bookmarket
 
 Target Server Type    : MYSQL
-Target Server Version : 50722
+Target Server Version : 50155
 File Encoding         : 65001
 
-Date: 2019-05-30 09:50:45
+Date: 2019-05-31 18:11:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3648,6 +3648,24 @@ INSERT INTO `cities` VALUES ('654300', '阿勒泰地区', '650000');
 INSERT INTO `cities` VALUES ('659000', '省直辖行政单位', '650000');
 
 -- ----------------------------
+-- Table structure for devotetask
+-- ----------------------------
+DROP TABLE IF EXISTS `devotetask`;
+CREATE TABLE `devotetask` (
+  `task_Id` int(11) NOT NULL AUTO_INCREMENT,
+  `task_Title` varchar(255) DEFAULT NULL COMMENT '任务名称',
+  `task_Score` int(11) DEFAULT NULL COMMENT '任务分数',
+  `task_State` int(11) DEFAULT NULL COMMENT '状态',
+  PRIMARY KEY (`task_Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of devotetask
+-- ----------------------------
+INSERT INTO `devotetask` VALUES ('1', '贡献一本书', '30', '0');
+INSERT INTO `devotetask` VALUES ('2', '大', '22', '0');
+
+-- ----------------------------
 -- Table structure for evaimg
 -- ----------------------------
 DROP TABLE IF EXISTS `evaimg`;
@@ -3761,7 +3779,7 @@ CREATE TABLE `funs` (
   PRIMARY KEY (`fun_Id`),
   KEY `fun_Pid` (`fun_Pid`),
   CONSTRAINT `funs_ibfk_1` FOREIGN KEY (`fun_Pid`) REFERENCES `funs` (`fun_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of funs
@@ -3782,6 +3800,8 @@ INSERT INTO `funs` VALUES ('13', '账户管理', null, null, '');
 INSERT INTO `funs` VALUES ('14', '基本资料', 'view/admininfo', '13', 'myframe');
 INSERT INTO `funs` VALUES ('15', '修改密码', 'view/updatepass', '13', 'myframe');
 INSERT INTO `funs` VALUES ('16', '客服管理', 'view/sysmsg', null, 'myframe');
+INSERT INTO `funs` VALUES ('17', '贡献值管理', null, null, null);
+INSERT INTO `funs` VALUES ('18', '贡献任务管理', 'view/devoteTask', '17', 'myframe');
 
 -- ----------------------------
 -- Table structure for goods
@@ -3899,8 +3919,8 @@ CREATE TABLE `message` (
   PRIMARY KEY (`messageid`),
   KEY `user1_message` (`receiveid`),
   KEY `user2_message` (`senderid`),
-  CONSTRAINT `user1_message` FOREIGN KEY (`receiveid`) REFERENCES `users` (`user_Id`),
-  CONSTRAINT `user2_message` FOREIGN KEY (`senderid`) REFERENCES `users` (`user_Id`)
+  CONSTRAINT `user2_message` FOREIGN KEY (`senderid`) REFERENCES `users` (`user_Id`),
+  CONSTRAINT `user1_message` FOREIGN KEY (`receiveid`) REFERENCES `users` (`user_Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -3998,6 +4018,7 @@ INSERT INTO `permissions` VALUES ('1', '11');
 INSERT INTO `permissions` VALUES ('1', '12');
 INSERT INTO `permissions` VALUES ('1', '13');
 INSERT INTO `permissions` VALUES ('1', '16');
+INSERT INTO `permissions` VALUES ('1', '17');
 
 -- ----------------------------
 -- Table structure for provinces
@@ -4066,6 +4087,24 @@ INSERT INTO `role` VALUES ('2', '商店管理员');
 INSERT INTO `role` VALUES ('3', '用户管理员');
 
 -- ----------------------------
+-- Table structure for sharebook
+-- ----------------------------
+DROP TABLE IF EXISTS `sharebook`;
+CREATE TABLE `sharebook` (
+  `sharebook_id` int(11) NOT NULL AUTO_INCREMENT,
+  `sharebook_name` varchar(255) DEFAULT NULL COMMENT '分享图书名称',
+  `sharebook_user` int(11) DEFAULT NULL COMMENT '分享图书用户id',
+  PRIMARY KEY (`sharebook_id`),
+  KEY `user` (`sharebook_user`) USING BTREE,
+  CONSTRAINT `userpfk` FOREIGN KEY (`sharebook_user`) REFERENCES `users` (`user_Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sharebook
+-- ----------------------------
+INSERT INTO `sharebook` VALUES ('1', '本草纲目', '14');
+
+-- ----------------------------
 -- Table structure for subscribe
 -- ----------------------------
 DROP TABLE IF EXISTS `subscribe`;
@@ -4118,22 +4157,44 @@ CREATE TABLE `users` (
   `user_State` int(11) DEFAULT '1' COMMENT '1正常 -1删除 2禁用',
   `user_Img` varchar(50) DEFAULT NULL,
   `user_Score` int(10) DEFAULT NULL COMMENT '用户积分',
+  `user_Devote` int(11) DEFAULT NULL COMMENT '贡献值',
   PRIMARY KEY (`user_Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('4', '明明', 'e10adc3949ba59abbe56e057f20f883e', '14514213254', 'vdgdsgfd@qq.com', '1', '头像6.jpg', '0');
-INSERT INTO `users` VALUES ('5', '康康', 'e10adc3949ba59abbe56e057f20f883e', '18803836187', 'dsgfd@qq.com', '1', '头像1.jpg', '0');
-INSERT INTO `users` VALUES ('6', '小小', 'e10adc3949ba59abbe56e057f20f883e', '13844445555', '151@qq.com', '1', '头像2.jpg', '0');
-INSERT INTO `users` VALUES ('7', '玲玲', '96e79218965eb72c92a549dd5a330112', '12345678901', '111@qq.com', '1', '头像3.jpg', '0');
-INSERT INTO `users` VALUES ('8', '羽羽', 'e10adc3949ba59abbe56e057f20f883e', '18803836187', '12121@qq.com', '2', '头像4.jpg', '0');
-INSERT INTO `users` VALUES ('9', 'lina', 'e10adc3949ba59abbe56e057f20f883e', '18803836887', '4151215@qq.com', '1', '头像5.jpg', '0');
-INSERT INTO `users` VALUES ('10', '飞飞', 'e10adc3949ba59abbe56e057f20f883e', '18803541254', 'gdsgfsds@qq.com', '1', '头像7.jpg', '0');
-INSERT INTO `users` VALUES ('12', '唐唐', 'e10adc3949ba59abbe56e057f20f883e', '18876945412', '5847446884@qq.com', '1', '头像6.jpg', '0');
-INSERT INTO `users` VALUES ('13', 'undo', 'e10adc3949ba59abbe56e057f20f883e', '18487487448', '1634166465@qq.com', '1', '头像4.jpg', '0');
-INSERT INTO `users` VALUES ('14', '小气鬼', '96e79218965eb72c92a549dd5a330112', '18660135363', 'test@163.com', '1', 'b9c5dba421f34445b978951037a22ec1.jpg', '0');
+INSERT INTO `users` VALUES ('4', '明明', 'e10adc3949ba59abbe56e057f20f883e', '14514213254', 'vdgdsgfd@qq.com', '1', '头像6.jpg', '0', '0');
+INSERT INTO `users` VALUES ('5', '康康', 'e10adc3949ba59abbe56e057f20f883e', '18803836187', 'dsgfd@qq.com', '1', '头像1.jpg', '0', '0');
+INSERT INTO `users` VALUES ('6', '小小', 'e10adc3949ba59abbe56e057f20f883e', '13844445555', '151@qq.com', '1', '头像2.jpg', '0', '0');
+INSERT INTO `users` VALUES ('7', '玲玲', '96e79218965eb72c92a549dd5a330112', '12345678901', '111@qq.com', '1', '头像3.jpg', '0', '0');
+INSERT INTO `users` VALUES ('8', '羽羽', 'e10adc3949ba59abbe56e057f20f883e', '18803836187', '12121@qq.com', '2', '头像4.jpg', '0', '0');
+INSERT INTO `users` VALUES ('9', 'lina', 'e10adc3949ba59abbe56e057f20f883e', '18803836887', '4151215@qq.com', '1', '头像5.jpg', '0', '0');
+INSERT INTO `users` VALUES ('10', '飞飞', 'e10adc3949ba59abbe56e057f20f883e', '18803541254', 'gdsgfsds@qq.com', '1', '头像7.jpg', '0', '0');
+INSERT INTO `users` VALUES ('12', '唐唐', 'e10adc3949ba59abbe56e057f20f883e', '18876945412', '5847446884@qq.com', '1', '头像6.jpg', '0', '0');
+INSERT INTO `users` VALUES ('13', 'undo', 'e10adc3949ba59abbe56e057f20f883e', '18487487448', '1634166465@qq.com', '1', '头像4.jpg', '0', '0');
+INSERT INTO `users` VALUES ('14', '小气鬼', '96e79218965eb72c92a549dd5a330112', '18660135363', 'test@163.com', '1', 'b9c5dba421f34445b978951037a22ec1.jpg', '0', '52');
+
+-- ----------------------------
+-- Table structure for usertask
+-- ----------------------------
+DROP TABLE IF EXISTS `usertask`;
+CREATE TABLE `usertask` (
+  `usertask_id` int(11) NOT NULL AUTO_INCREMENT,
+  `usertask_task` int(11) DEFAULT NULL COMMENT '完成任务id',
+  `usertask_user` int(11) DEFAULT NULL COMMENT '完成用户',
+  PRIMARY KEY (`usertask_id`),
+  KEY `usertask_taskpfk` (`usertask_task`) USING BTREE,
+  KEY `usertask_userpfk` (`usertask_user`) USING BTREE,
+  CONSTRAINT `user` FOREIGN KEY (`usertask_user`) REFERENCES `users` (`user_Id`),
+  CONSTRAINT `task` FOREIGN KEY (`usertask_task`) REFERENCES `devotetask` (`task_Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of usertask
+-- ----------------------------
+INSERT INTO `usertask` VALUES ('3', '1', '14');
+INSERT INTO `usertask` VALUES ('4', '2', '14');
 
 -- ----------------------------
 -- Table structure for zipcode
