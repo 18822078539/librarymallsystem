@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="UserTask" id="BaseResult">
 		<id property="userTaskId" column="usertask_id" javaType="java.lang.Integer" />
 		<result property="userTaskTask.taskId" column="usertask_task" javaType="java.lang.Integer"  />
-		<result property="userTaskTask.userId" column="usertask_user" javaType="java.lang.Integer" />
+		<result property="userTaskUser.userId" column="usertask_user" javaType="java.lang.Integer" />
 	</resultMap>
 	<resultMap type="UserTask" id="BaseResultJoinObj" extends="BaseResult">
 		<association property="userTaskTask" javaType="DevoteTask" column="usertask_task" select="com.library.mall.mapper.DevoteTaskMapper.findDevoteTaskById"></association>

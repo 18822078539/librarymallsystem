@@ -327,6 +327,7 @@
                         <ul class="layui-tab-title">
                             <li class="layui-this">贡献任务</li>
                             <li>贡献图书</li>
+                            <li>已完成任务</li>
                         </ul>
 
 
@@ -354,6 +355,11 @@
                                     </div>
                                 </form>
                                 <div id="devoteBooks">
+
+                                </div>
+                            </div>
+                            <div class="layui-tab-item layui-show">
+                                <div id="finishTask">
 
                                 </div>
                             </div>
@@ -609,7 +615,34 @@
         findFinishSecOrder();
         showAllTask();
         showShareBooks();
+        showUserTask();
     })
+
+    function showUserTask() {
+        $.post("userTask/findBySplitPage", {
+            pageSize: 30,
+            pageNum: 1
+        }, function (r) {
+            if (r.code === 0) {
+                console.info(r.msg);
+                var html = "";
+                for (var i = 0; i < r.msg.length; i++) {
+                    var item = r.msg[i];
+                    var str = "<div class=\"layui-card\">" +
+                        "<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\"" +
+                        "data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"" +
+                        "aria-expanded=\"false\"><div style=\"margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;\"><img src=\"upload/" + item.userTaskUser.userImg + "\" style=\"width:30px;height:30px;\" class=\"layui-nav-img\"></div>&nbsp;&nbsp;" + item.userTaskUser.userName + "<span class=\"caret\"></span></a></li>" +
+                        "<div>" + item.userTaskTask.taskTitle +"获得："+item.userTaskTask.taskScore+"分"+
+                        "</div>" +
+                        "</div>";
+                    html += str;
+                }
+                $("#finishTask").html("").append(html);
+
+            } else {
+            }
+        });
+    }
 
     function showShareBooks() {
         $.post("shareBook/findBySplitPage", {
