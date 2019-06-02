@@ -16,18 +16,31 @@ public class UserTask implements Serializable {
 
     private Users userTaskUser;
 
+    //任务类型
+    private Integer type;
+
     public UserTask() {
     }
 
-    public UserTask(Integer userTaskId, DevoteTask userTaskTask, Users userTaskUser) {
+    public UserTask(Integer userTaskId, DevoteTask userTaskTask, Users userTaskUser,Integer type) {
         this.userTaskId = userTaskId;
         this.userTaskTask = userTaskTask;
         this.userTaskUser = userTaskUser;
+        this.type = type;
     }
 
-    public UserTask(DevoteTask userTaskTask, Users userTaskUser) {
+    public UserTask(DevoteTask userTaskTask, Users userTaskUser,Integer type) {
         this.userTaskTask = userTaskTask;
         this.userTaskUser = userTaskUser;
+        this.type = type;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Integer getUserTaskId() {
