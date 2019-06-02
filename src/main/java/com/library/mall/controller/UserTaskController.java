@@ -39,7 +39,7 @@ public class UserTaskController {
         if(taskList.size()==0){
             DevoteTask devoteTask = new DevoteTask();
             devoteTask.setTaskId(taskId);
-            UserTask userTask = new UserTask(devoteTask,user);
+            UserTask userTask = new UserTask(devoteTask,user,1);
             Integer rs = userTaskService.saveUserTask(userTask);
             if(rs>0){
                 //同时需要更新用户的贡献值

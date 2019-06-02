@@ -43,6 +43,7 @@
 					<label class="layui-form-label">贡献值</label>
 					<div class="layui-input-block">
 						<label class="layui-form-label">${user.userDevote }</label>
+						<button type="button" class="layui-btn layui-btn-xs" onclick="seeDetail()">查看明细</button>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -89,7 +90,13 @@
 			</form>
 		</div>
 	</div>
+	<div id="addMsg" style="display:none;width:800px;padding-top:10px;">
+			<div class="layui-form-item">
+				<div id="finishTask">
 
+				</div>
+			</div>
+	</div>
 	<!--尾部-->
 	<jsp:include page="include/foot.jsp" />
 	<script type="text/javascript">
@@ -117,6 +124,64 @@
 			    }
 			  });
 		});
+
+		$(function () {
+            showUserTask();
+        })
+
+        function showUserTask() {
+            $.post("userTask/findBySplitPage", {
+                pageSize: 30,
+                pageNum: 1
+            }, function (r) {
+                if (r.code === 0) {
+                    console.info(r.msg);
+                    var html = "";
+                    for (var i = 0; i < r.msg.length; i++) {
+                        var item = r.msg[i];
+                        var str = "<div class=\"layui-card\">" +
+                            "<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\"" +
+                            "data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"" +
+                            "aria-expanded=\"false\"><div style=\"margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;\"><img src=\"upload/" + item.userTaskUser.userImg + "\" style=\"width:30px;height:30px;\" class=\"layui-nav-img\"></div>&nbsp;&nbsp;" + item.userTaskUser.userName + "<span class=\"caret\"></span></a></li>" +
+                            "<div>" + item.userTaskTask.taskTitle +"获得："+item.userTaskTask.taskScore+"分;获取途径："+(item.type==1?"贡献图书":"借阅图书")+
+                            "</div>" +
+                            "</div>";
+                        html += str;
+                    }
+                    $("#finishTask").html("").append(html);
+
+                } else {
+                }
+            });
+        }
+
+        /**
+         * 触发查看明细事件
+         */
+        function seeDetail() {
+            layer.open({
+                type: 1,
+                title: '贡献值明细',
+                shade: 0.4,  //阴影度
+                fix: false,
+                shadeClose: true,
+                maxmin: false,
+                area: ['900px;', '240px;'],    //窗体大小（宽,高）
+                content: $('#addMsg'),
+                success: function (layero, index) {
+                    var body = layer.getChildFrame('body', index); //得到子页面层的BODY
+                    // $("#receiveid").val(friendid);
+                    //form.render();
+                    body.find('#hidValue').val(index); //将本层的窗口索引传给子页面层的hidValue中
+                },
+                btn: ['确定','取消'],
+                yes: function (index, layero) {
+
+					layer.close(index);
+
+                }
+            })
+        }
 	</script>
 </body>
 </html>

@@ -386,6 +386,36 @@
     </form>
 </div>
 
+<div id="wuliu" style="display:none;width:800px;padding-top:10px;">
+        <div class="layui-form-item">
+            <label class="layui-form-label">提问内容</label>
+            <div class="layui-input-block">
+                <input type="text"  required lay-verify="required" placeholder="请输入提问内容"
+                       value="" class="layui-input"/>
+            </div>
+        </div>
+</div>
+
+<div id="changeB" style="display:none;width:800px;padding-top:10px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">更换图书名称</label>
+        <div class="layui-input-block">
+            <input type="text"  required lay-verify="required" placeholder="请输入图书名称"
+                   value="" class="layui-input"/>
+        </div>
+    </div>
+</div>
+
+<div id="tuikuanA" style="display:none;width:800px;padding-top:10px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">申请退款</label>
+        <div class="layui-input-block">
+            <input type="text"  required lay-verify="required" placeholder="请输入退款理由"
+                   value="" class="layui-input"/>
+        </div>
+    </div>
+</div>
+
 <!-- 尾部 -->
 <jsp:include page="include/foot.jsp"/>
 <div class="layui-form" id="addrForm" style="display:none;padding-top:10px;">
@@ -1464,7 +1494,7 @@
                                 + "</tr>";
                         }
                         str = str
-                            + "</tbody></table></div>"
+                            + "</tbody></table></div><button onclick='changeBook()' class='layui-btn layui-btn-normal layui-btn-fluid layui-btn-radius'>更换图书</button>"
                             + "</div></div>";
                     }
                     str = str + "</div>";
@@ -1580,7 +1610,7 @@
                                 + "</tr>";
                         }
                         str = str
-                            + "</tbody></table></div>"
+                            + "</tbody></table></div><button onclick='tuikuan()' class='layui-btn layui-btn-normal layui-btn-fluid layui-btn-radius'>申请退款</button>"
                             + "</div></div>";
                     }
                     str = str + "</div>";
@@ -1639,7 +1669,7 @@
                                 + "</tr>";
                         }
                         str = str
-                            + "</tbody></table></div><button onclick='confirmReceive(\"" + data[i].orderId + "\")' class='layui-btn layui-btn-normal layui-btn-fluid layui-btn-radius'>确认收货</button>"
+                            + "</tbody></table></div><button onclick='confirmReceive(\"" + data[i].orderId + "\")' class='layui-btn layui-btn-normal  layui-btn-radius'>确认收货</button>"+"<button onclick='sendToWl()' class='layui-btn layui-btn-normal  layui-btn-radius'>联系物流</button>"
                             + "</div></div>";
                     }
                     str = str + "</div>";
@@ -1648,6 +1678,80 @@
                 //element.render();
             }
         });
+    }
+
+    function changeBook() {
+        layer.open({
+            type: 1,
+            title: '更换图书',
+            shade: 0.4,  //阴影度
+            fix: false,
+            shadeClose: true,
+            maxmin: false,
+            area: ['900px;', '240px;'],    //窗体大小（宽,高）
+            content: $('#changeB'),
+            success: function (layero, index) {
+                var body = layer.getChildFrame('body', index); //得到子页面层的BODY
+
+                //form.render();
+                body.find('#hidValue').val(index); //将本层的窗口索引传给子页面层的hidValue中
+            },
+            btn: ['更换', '取消'],
+            yes: function (index, layero) {
+                parent.layer.msg('更换图书申请已完成，请耐心等待', {icon: 1, shade: 0.4, time: 1000});
+                layer.close(index);
+            }
+        })
+    }
+
+    function tuikuan() {
+        layer.open({
+            type: 1,
+            title: '申请退款',
+            shade: 0.4,  //阴影度
+            fix: false,
+            shadeClose: true,
+            maxmin: false,
+            area: ['900px;', '240px;'],    //窗体大小（宽,高）
+            content: $('#tuikuanA'),
+            success: function (layero, index) {
+                var body = layer.getChildFrame('body', index); //得到子页面层的BODY
+
+                //form.render();
+                body.find('#hidValue').val(index); //将本层的窗口索引传给子页面层的hidValue中
+            },
+            btn: ['退款', '取消'],
+            yes: function (index, layero) {
+                parent.layer.msg('退款申请已完成，请耐心等待', {icon: 1, shade: 0.4, time: 1000});
+                layer.close(index);
+            }
+        })
+    }
+
+    function sendToWl() {
+
+            layer.open({
+                type: 1,
+                title: '提问',
+                shade: 0.4,  //阴影度
+                fix: false,
+                shadeClose: true,
+                maxmin: false,
+                area: ['900px;', '240px;'],    //窗体大小（宽,高）
+                content: $('#wuliu'),
+                success: function (layero, index) {
+                    var body = layer.getChildFrame('body', index); //得到子页面层的BODY
+
+                    //form.render();
+                    body.find('#hidValue').val(index); //将本层的窗口索引传给子页面层的hidValue中
+                },
+                btn: ['提问', '取消'],
+                yes: function (index, layero) {
+                    parent.layer.msg('问题已反馈至物流公司，请耐心等待', {icon: 1, shade: 0.4, time: 1000});
+                    layer.close(index);
+                }
+            })
+
     }
 
     function confirmReceive(id) {
