@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50155
 File Encoding         : 65001
 
-Date: 2019-05-31 18:11:07
+Date: 2019-06-03 10:24:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4183,18 +4183,19 @@ CREATE TABLE `usertask` (
   `usertask_id` int(11) NOT NULL AUTO_INCREMENT,
   `usertask_task` int(11) DEFAULT NULL COMMENT '完成任务id',
   `usertask_user` int(11) DEFAULT NULL COMMENT '完成用户',
+  `type` int(11) DEFAULT NULL COMMENT '任务类型',
   PRIMARY KEY (`usertask_id`),
   KEY `usertask_taskpfk` (`usertask_task`) USING BTREE,
   KEY `usertask_userpfk` (`usertask_user`) USING BTREE,
-  CONSTRAINT `user` FOREIGN KEY (`usertask_user`) REFERENCES `users` (`user_Id`),
-  CONSTRAINT `task` FOREIGN KEY (`usertask_task`) REFERENCES `devotetask` (`task_Id`)
+  CONSTRAINT `task` FOREIGN KEY (`usertask_task`) REFERENCES `devotetask` (`task_Id`),
+  CONSTRAINT `user` FOREIGN KEY (`usertask_user`) REFERENCES `users` (`user_Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of usertask
 -- ----------------------------
-INSERT INTO `usertask` VALUES ('3', '1', '14');
-INSERT INTO `usertask` VALUES ('4', '2', '14');
+INSERT INTO `usertask` VALUES ('3', '1', '14', null);
+INSERT INTO `usertask` VALUES ('4', '2', '14', null);
 
 -- ----------------------------
 -- Table structure for zipcode
