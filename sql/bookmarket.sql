@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50155
 File Encoding         : 65001
 
-Date: 2019-06-03 10:24:08
+Date: 2019-06-05 16:08:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3264,6 +3264,23 @@ INSERT INTO `banner` VALUES ('6', '元宵活动', 'goods/detail?goodsId=9', 'ban
 INSERT INTO `banner` VALUES ('8', '提莫大魔王活动', 'goods/detail?goodsId=4', 'banner4.jpg', '1');
 
 -- ----------------------------
+-- Table structure for baseconfig
+-- ----------------------------
+DROP TABLE IF EXISTS `baseconfig`;
+CREATE TABLE `baseconfig` (
+  `config_id` int(11) NOT NULL AUTO_INCREMENT,
+  `config_name` varchar(255) DEFAULT NULL,
+  `config_code` varchar(255) DEFAULT NULL,
+  `config_state` int(11) DEFAULT NULL,
+  PRIMARY KEY (`config_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of baseconfig
+-- ----------------------------
+INSERT INTO `baseconfig` VALUES ('3', 'nums', '5', '0');
+
+-- ----------------------------
 -- Table structure for cart
 -- ----------------------------
 DROP TABLE IF EXISTS `cart`;
@@ -3779,7 +3796,7 @@ CREATE TABLE `funs` (
   PRIMARY KEY (`fun_Id`),
   KEY `fun_Pid` (`fun_Pid`),
   CONSTRAINT `funs_ibfk_1` FOREIGN KEY (`fun_Pid`) REFERENCES `funs` (`fun_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of funs
@@ -3802,6 +3819,7 @@ INSERT INTO `funs` VALUES ('15', '修改密码', 'view/updatepass', '13', 'myfra
 INSERT INTO `funs` VALUES ('16', '客服管理', 'view/sysmsg', null, 'myframe');
 INSERT INTO `funs` VALUES ('17', '贡献值管理', null, null, null);
 INSERT INTO `funs` VALUES ('18', '贡献任务管理', 'view/devoteTask', '17', 'myframe');
+INSERT INTO `funs` VALUES ('19', '基础配置管理', 'view/baseConfig', null, 'myframe');
 
 -- ----------------------------
 -- Table structure for goods
@@ -3882,8 +3900,8 @@ CREATE TABLE `guess` (
 -- ----------------------------
 -- Records of guess
 -- ----------------------------
-INSERT INTO `guess` VALUES ('82', '33', '28', '1', '14');
-INSERT INTO `guess` VALUES ('83', '34', '5', '-1', '14');
+INSERT INTO `guess` VALUES ('82', '33', '29', '1', '14');
+INSERT INTO `guess` VALUES ('83', '34', '6', '-1', '14');
 INSERT INTO `guess` VALUES ('84', '35', '1', '-1', '14');
 INSERT INTO `guess` VALUES ('85', '36', '1', '-1', '14');
 
@@ -4019,6 +4037,7 @@ INSERT INTO `permissions` VALUES ('1', '12');
 INSERT INTO `permissions` VALUES ('1', '13');
 INSERT INTO `permissions` VALUES ('1', '16');
 INSERT INTO `permissions` VALUES ('1', '17');
+INSERT INTO `permissions` VALUES ('1', '19');
 
 -- ----------------------------
 -- Table structure for provinces
