@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.library.mall.entity.*;
 import com.library.mall.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,13 +37,6 @@ import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.pagehelper.PageInfo;
-import com.library.mall.entity.Address;
-import com.library.mall.entity.Cart;
-import com.library.mall.entity.Goods;
-import com.library.mall.entity.Guess;
-import com.library.mall.entity.Order;
-import com.library.mall.entity.OrderDetail;
-import com.library.mall.entity.Users;
 import com.library.mall.util.AlipayConfig;
 import com.library.mall.util.OrderSearchVO;
 import com.library.mall.util.OrderVO;
@@ -62,6 +56,8 @@ public class OrderController {
 	private IGuessService guessService;
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IBaseConfigService baseConfigService;
 	
 	@RequestMapping("takeOrder")
 	public String takeOrder(Integer[] goodslist,Integer addr,Model model,HttpServletRequest request){
@@ -270,7 +266,7 @@ public class OrderController {
 		return obj;
 	}
 	@RequestMapping("toPay")
-	public String toPayFor(String orderId,HttpServletResponse response){
+	public String toPayFor(String orderId,HttpServletRequest request,HttpServletResponse response){
 //		AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
 //		//设置请求参数
 //		AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
@@ -314,12 +310,29 @@ public class OrderController {
 //			e.printStackTrace();
 //		}
 //        return null;
-		//模拟支付即可，完成支付状态更新
-		Integer rs = orderService.payForOrder(orderId);
-		if(rs>0){
-			System.out.println("同步通知支付成功");
+		HttpSession session = request.getSession();
+		Users user = (Users) session.getAttribute("user");
+		List<BaseConfig> baseConfigs = baseConfigService.findAllBaseConfig();
+		Integer values = 0;
+		for(BaseConfig baseConfig:baseConfigs){
+			if(baseConfig.getConfigName().equals("nums")){
+				values = Integer.parseInt(baseConfig.getConfigCode());
+				break;
+			}
 		}
-		return "paysuccess";
+		//查询当前用户已借图书
+		List<Order> orders = orderService.findOrdersByUserIdAndState(user.getUserId(),7);
+		if(orders.size()>=values){
+			return "overnums";
+		}else{
+			//模拟支付即可，完成支付状态更新
+			Integer rs = orderService.payForOrder(orderId);
+			if(rs>0){
+				System.out.println("同步通知支付成功");
+			}
+			return "paysuccess";
+		}
+
 	}
 	@RequestMapping("notify_url")
 	public void notifyUrl(HttpServletRequest request,HttpServletResponse response){

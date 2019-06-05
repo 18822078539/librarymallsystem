@@ -100,4 +100,8 @@ public class ViewController {
 	public String toDevoteTask(){
 		return "admin/devotetasklist";
 	}
+	@RequestMapping("baseConfig")
+	public String toBaseConfig(){
+		return "admin/baseconfig";
+	}
 }

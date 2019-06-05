@@ -26,7 +26,7 @@
 	<div class="layui-container" id="main" style="height:500px;width:100%;">
 		<img style="margin-left:200px;float:left;height:500px;width:400px;" src="upload/paysuccess.png" />
 		<div style="float:left;height:500px;width:500px;padding-top:200px;">
-			<h1>支付成功</h1>
+			<h1>抱歉，借阅图书已超限</h1>
 			<button class="layui-btn layui-btn-normal" onclick="javascript:window.location.href='view/index'">继续购物</button>
 			<button class="layui-btn layui-btn-warm" onclick="javascript:window.location.href='view/usercenter/#section2'">查看订单</button>
 		</div>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.mall.mapper.BaseConfigMapper">
+	<resultMap type="com.library.mall.entity.BaseConfig" id="BaseResultMap">
+		<id property="configId" column="config_id" />
+		<result property="configName" column="config_name" />
+		<result property="configCode" column="config_code" />
+		<result property="configState" column="config_state" />
+	</resultMap>
+	<insert id="addBaseConfig" parameterType="BaseConfig">
+		insert into baseconfig(config_name,config_code,config_state)
+		values(#{configName},#{configCode},0)
+	</insert>
+	<update id="deleteBaseConfig" parameterType="java.lang.Integer">
+		update baseconfig set config_state=-1 where config_id=#{id}
+	</update>
+
+	<update id="updateBaseConfig" parameterType="BaseConfig">
+		update baseconfig
+		<set>
+			<if test="configName!=null">
+				config_name=#{configName},
+			</if>
+			<if test="configCode!=null">
+				config_code=#{configCode},
+			</if>
+		</set>
+		where config_id=#{configId}
+	</update>
+	<select id="findBaseConfigById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select * from baseconfig where config_id=#{id}
+	</select>
+	<select id="findAllBaseConfig" resultMap="BaseResultMap">
+		select * from baseconfig where config_state &gt;= 0
+	</select>
+	<select id="findAllBaseConfigByLikeName" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from baseconfig where config_state &gt;= 0 and config_name like '%${value}%'
+	</select>
+
+</mapper>
