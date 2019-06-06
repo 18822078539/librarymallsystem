@@ -16,18 +16,30 @@ public class ShareBook implements Serializable {
 
     private Users shareBookUser;
 
+    private Integer shareBookOrder;
+
     public ShareBook() {
     }
 
-    public ShareBook(String shareBookName, Users shareBookUser) {
+    public ShareBook(String shareBookName, Users shareBookUser,Integer shareBookOrder) {
         this.shareBookName = shareBookName;
         this.shareBookUser = shareBookUser;
+        this.shareBookOrder = shareBookOrder;
     }
 
-    public ShareBook(Integer shareBookId, String shareBookName, Users shareBookUser) {
+    public ShareBook(Integer shareBookId, String shareBookName, Users shareBookUser,Integer shareBookOrder) {
         this.shareBookId = shareBookId;
         this.shareBookName = shareBookName;
         this.shareBookUser = shareBookUser;
+        this.shareBookOrder = shareBookOrder;
+    }
+
+    public Integer getShareBookOrder() {
+        return shareBookOrder;
+    }
+
+    public void setShareBookOrder(Integer shareBookOrder) {
+        this.shareBookOrder = shareBookOrder;
     }
 
     public Integer getShareBookId() {

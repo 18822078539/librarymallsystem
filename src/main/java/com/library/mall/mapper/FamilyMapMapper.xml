@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.library.mall.mapper.FamilyMapMapper">
+  <resultMap id="BaseResultMap" type="com.library.mall.entity.FamilyMap">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="familymapid" jdbcType="INTEGER" property="familymapid" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="familyid" jdbcType="INTEGER" property="familyid" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+  </resultMap>
+</mapper>

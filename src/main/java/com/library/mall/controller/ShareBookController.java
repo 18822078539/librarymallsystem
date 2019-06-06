@@ -34,11 +34,23 @@ public class ShareBookController {
         Users user=(Users) session.getAttribute("user");
         List<UserTask> taskList = shareBookService.findBookByUserIdAndName(user.getUserId(),bookName);
         if(taskList.size()==0){
-            ShareBook shareBook = new ShareBook(bookName,user);
+            ShareBook shareBook = new ShareBook(bookName,user,2);
             Integer rs = shareBookService.saveShareBook(shareBook);
         }
         return "forward:/view/usercenter";
 
+    }
+
+    @RequestMapping("zhiding")
+    @ResponseBody
+    public String updateOrder(Integer shareBookId){
+        try {
+            shareBookService.updateAllShareBook();
+            shareBookService.updateStatus(shareBookId);
+            return "success";
+        }catch (Exception e){
+            return "fail";
+        }
     }
 
     /**

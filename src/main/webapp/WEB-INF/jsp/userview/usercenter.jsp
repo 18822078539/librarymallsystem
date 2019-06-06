@@ -62,6 +62,10 @@
                         href="view/usercenter/#section9">联系客服</a></li>
                 <li class="list-group-item-diy"><a
                         href="view/usercenter/#section9">我的贡献</a></li>
+                <li class="list-group-item-diy"><a
+                        href="view/usercenter/#section10">我的电子书</a></li>
+                <li class="list-group-item-diy"><a
+                        href="view/usercenter/#section11">亲情互联</a></li>
             </ul>
         </div>
         <!-- 控制内容 -->
@@ -369,6 +373,47 @@
 
                 </table>
             </div>
+            <div class="col-md-12">
+                <h1>
+                    <a name="section9">我的电子书</a>
+                </h1>
+                <hr/>
+                <table class="table table-hover center">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">贡献图书</li>
+                        </ul>
+
+
+                        <div class="layui-tab-content">
+
+                            <div class="layui-tab-item layui-show">
+                                <form class="layui-form" action="shareBook/share">
+                                    <div class="layui-card">
+                                        <div class="layui-card-body">
+                                            <div class="layui-form-item layui-form-text">
+                                                <label class="layui-form-label">图书名称</label>
+                                                <div class="layui-input-block">
+                                                    <textarea placeholder="请输入内容" class="layui-textarea"
+                                                              name="bookName"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <button class="layui-btn" type="submit">上传</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div id="devoteBooksa">
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -646,6 +691,7 @@
         showAllTask();
         showShareBooks();
         showUserTask();
+        showShareBooksa();
     })
 
     function showUserTask() {
@@ -672,6 +718,45 @@
             } else {
             }
         });
+    }
+
+    function showShareBooksa() {
+        $.post("shareBook/findBySplitPage", {
+            pageSize: 30,
+            pageNum: 1
+        }, function (r) {
+            if (r.code === 0) {
+                console.info(r.msg);
+                var html = "";
+                for (var i = 0; i < r.msg.length; i++) {
+                    var item = r.msg[i];
+                    var str = "<div class=\"layui-card\">" +
+                        "<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\"" +
+                        "data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"" +
+                        "aria-expanded=\"false\"><div style=\"margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;\"><img src=\"upload/" + item.shareBookUser.userImg + "\" style=\"width:30px;height:30px;\" class=\"layui-nav-img\"></div>&nbsp;&nbsp;" + item.shareBookUser.userName + "<span class=\"caret\"></span></a></li>" +
+                        "<div>" + item.shareBookName + " <button class=\"layui-btn layui-btn-xs\" onclick='zhiding(" + item.shareBookId + ")'>置顶</button>" +
+                        "</div>" +
+                        "</div>";
+                    html += str;
+                }
+                $("#devoteBooksa").html("").append(html);
+
+            } else {
+            }
+        });
+    }
+
+    function zhiding(shareId) {
+        $.post("shareBook/zhiding", {
+            shareBookId: shareId
+        }, function (r) {
+            if (r === 'success') {
+                parent.layer.msg('置顶成功', {icon: 1, shade: 0.4, time: 1000});
+                location.reload();
+            } else {
+                parent.layer.msg('操作异常', {icon: 1, shade: 0.4, time: 1000});
+            }
+        })
     }
 
     function showShareBooks() {
@@ -868,7 +953,7 @@
 
     function addFriend(friendId) {
         $.post("friendMap/addFriend", {
-            friendid: friendId
+            userid: friendId
         }, function (r) {
             if (r.code === 0) {
                 parent.layer.msg('好友申请发送成功', {icon: 1, shade: 0.4, time: 1000});
@@ -878,6 +963,29 @@
         })
     }
 
+    function pingbiFri(friendId) {
+        $.post("friendMap/pingbi", {
+            fId: friendId
+        }, function (r) {
+            if (r.code === 0) {
+                parent.layer.msg('屏蔽成功', {icon: 1, shade: 0.4, time: 1000});
+            } else {
+                parent.layer.msg(r.msg, {icon: 1, shade: 0.4, time: 1000});
+            }
+        })
+    }
+    function deleteFri(friendId) {
+        $.post("friendMap/delete", {
+            fId: friendId
+        }, function (r) {
+            if (r.code === 0) {
+                parent.layer.msg('删除成功', {icon: 1, shade: 0.4, time: 1000});
+                location.reload();
+            } else {
+                parent.layer.msg(r.msg, {icon: 1, shade: 0.4, time: 1000});
+            }
+        })
+    }
     function showAllFriends() {
         $.post("friendMap/findBySplitPage", {
             pageSize: 30,
@@ -891,7 +999,7 @@
                     var item = r.msg[i];
                     var str = "<div class=\"layui-card\">" +
                         "<div style=\"margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;\"><img src=\"upload/" + item.users.userImg + "\" style=\"width:30px;height:30px;\" class=\"layui-nav-img\"></div>&nbsp;&nbsp;" + item.users.userName +
-                        "<div>" + item.ctime + " <button class=\"layui-btn layui-btn-xs\" onclick='addMsgEvent(" + item.friendid + ")'>留言</button>" +
+                        "<div>" + item.ctime + " <button class=\"layui-btn layui-btn-xs\" onclick='addMsgEvent(" + item.friendid + ")'>留言</button>" +" <button class=\"layui-btn layui-btn-xs\" onclick='pingbiFri(" + item.friendmapid + ")'>屏蔽好友</button>"+" <button class=\"layui-btn layui-btn-xs\" onclick='deleteFri(" + item.friendmapid + ")'>删除好友</button>"+
                         "</div>" +
                         "</div>";
                     html += str;

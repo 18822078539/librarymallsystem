@@ -12,7 +12,8 @@ public interface ShareBookMapper {
 	Integer saveShareBook(ShareBook g);
 	Integer deleteShareBook(Integer id);
 	List<ShareBook> findAllShareBookByUserId(Integer userId);
-
+	void updateAllStatus();
+	void updateStatus(Integer id);
 	List<UserTask> findBookByUserIdAndName(@Param("userId") Integer userId, @Param("shareName") String bookName);
 //	List<ShareBook> findAllShareBookByUserIdAndTaskId(Integer usertask_user, Integer usertask_task);
 }

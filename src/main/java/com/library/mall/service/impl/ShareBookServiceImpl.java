@@ -39,4 +39,14 @@ public class ShareBookServiceImpl implements IShareBookService{
     public List<UserTask> findBookByUserIdAndName(Integer userId, String bookName) {
         return shareBookMapper.findBookByUserIdAndName(userId,bookName);
     }
+
+    @Override
+    public void updateAllShareBook() {
+        shareBookMapper.updateAllStatus();
+    }
+
+    @Override
+    public void updateStatus(Integer id) {
+        shareBookMapper.updateStatus(id);
+    }
 }

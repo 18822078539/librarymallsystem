@@ -28,7 +28,10 @@ public class FriendMapServiceImpl extends BaseService<FriendMap> implements IFri
         }
         if(friendMap.getState()!=null){
             criteria.andCondition("state = ",friendMap.getState());
+        }else{
+            criteria.andCondition("state != 2");
         }
         return this.selectByExample(example);
     }
+
 }

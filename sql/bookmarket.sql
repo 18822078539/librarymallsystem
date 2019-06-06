@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50155
 File Encoding         : 65001
 
-Date: 2019-06-05 16:08:05
+Date: 2019-06-06 18:48:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3729,6 +3729,28 @@ INSERT INTO `evaluate` VALUES ('77', '14', '极好的', '2019-05-28', '34', '1',
 INSERT INTO `evaluate` VALUES ('78', '14', '大时代撒', '2019-05-28', '35', '1', '5');
 
 -- ----------------------------
+-- Table structure for familymap
+-- ----------------------------
+DROP TABLE IF EXISTS `familymap`;
+CREATE TABLE `familymap` (
+  `familymapid` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) DEFAULT NULL,
+  `familyid` int(11) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL,
+  `addtime` datetime DEFAULT NULL,
+  PRIMARY KEY (`familymapid`),
+  KEY `userids` (`userid`) USING BTREE,
+  KEY `familyids` (`familymapid`) USING BTREE,
+  KEY `familypfks` (`familyid`),
+  CONSTRAINT `familypfks` FOREIGN KEY (`familyid`) REFERENCES `users` (`user_Id`),
+  CONSTRAINT `useridpfks` FOREIGN KEY (`userid`) REFERENCES `users` (`user_Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of familymap
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for feel
 -- ----------------------------
 DROP TABLE IF EXISTS `feel`;
@@ -3776,11 +3798,10 @@ CREATE TABLE `friendmap` (
 -- Records of friendmap
 -- ----------------------------
 INSERT INTO `friendmap` VALUES ('40', '7', '9', '1', '2016-06-25 13:51:36');
-INSERT INTO `friendmap` VALUES ('44', '14', '8', '1', '2016-06-26 18:44:24');
+INSERT INTO `friendmap` VALUES ('44', '14', '8', '2', '2016-06-26 18:44:24');
 INSERT INTO `friendmap` VALUES ('45', '14', '4', '1', '2016-06-26 18:44:44');
 INSERT INTO `friendmap` VALUES ('46', '14', '5', '1', '2016-06-14 18:45:25');
 INSERT INTO `friendmap` VALUES ('47', '14', '6', '1', '2016-06-14 18:45:47');
-INSERT INTO `friendmap` VALUES ('48', '14', '7', '1', '2016-07-20 18:45:53');
 INSERT INTO `friendmap` VALUES ('49', '14', '10', '0', '2019-05-24 15:51:32');
 
 -- ----------------------------
@@ -4113,15 +4134,17 @@ CREATE TABLE `sharebook` (
   `sharebook_id` int(11) NOT NULL AUTO_INCREMENT,
   `sharebook_name` varchar(255) DEFAULT NULL COMMENT '分享图书名称',
   `sharebook_user` int(11) DEFAULT NULL COMMENT '分享图书用户id',
+  `sharebook_order` int(11) DEFAULT NULL,
   PRIMARY KEY (`sharebook_id`),
   KEY `user` (`sharebook_user`) USING BTREE,
   CONSTRAINT `userpfk` FOREIGN KEY (`sharebook_user`) REFERENCES `users` (`user_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sharebook
 -- ----------------------------
-INSERT INTO `sharebook` VALUES ('1', '本草纲目', '14');
+INSERT INTO `sharebook` VALUES ('1', '本草纲目', '14', '1');
+INSERT INTO `sharebook` VALUES ('2', '小小的菲菲', '14', '2');
 
 -- ----------------------------
 -- Table structure for subscribe

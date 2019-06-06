@@ -7,6 +7,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="shareBookId" column="sharebook_id" javaType="java.lang.Integer" />
 		<result property="shareBookName" column="sharebook_name" javaType="java.lang.String" />
 		<result property="shareBookUser.userId" column="sharebook_user" javaType="java.lang.Integer" />
+		<result property="shareBookOrder" column="sharebook_order" javaType="java.lang.Integer" />
+
 	</resultMap>
 	<resultMap type="ShareBook" id="BaseResultJoinObj" extends="BaseResult">
 		<association property="shareBookUser" javaType="Users" column="sharebook_user" select="com.library.mall.mapper.UserMapper.findUserById"></association>
@@ -20,11 +22,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from sharebook where sharebook_id=#{id}
 	</delete>
 	<select id="findAllShareBookByUserId" parameterType="java.lang.Integer" resultMap="BaseResultJoinObj">
-		select * from sharebook where sharebook_user=#{id}
+		select * from sharebook where sharebook_user=#{id} order by sharebook_order
 	</select>
 
 	<select id="findBookByUserIdAndName" resultMap="BaseResultJoinObj">
 		select * from sharebook where sharebook_user=#{userId} and sharebook_name=#{shareName}
 	</select>
+	<update id="updateAllStatus">
+		UPDATE sharebook set sharebook_order = 2
+	</update>
+
+	<update id="updateStatus" parameterType="java.lang.Integer">
+		UPDATE sharebook SET sharebook_order = 1 WHERE  sharebook_id=#{id}
+	</update>
 
 </mapper>

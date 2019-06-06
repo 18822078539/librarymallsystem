@@ -18,4 +18,8 @@ public interface IShareBookService {
     List<ShareBook> findAllShareBookByUserId(Integer userId);
 
     List<UserTask> findBookByUserIdAndName(Integer userId, String bookName);
+
+    void updateAllShareBook();
+
+    void updateStatus(Integer id);
 }

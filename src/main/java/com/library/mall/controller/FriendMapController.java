@@ -79,7 +79,7 @@ public class FriendMapController {
             if(users.getUserId()==friendMap.getFriendid()){
                 return ResponseBo.error("不可以添加自己为好友");
             }
-            friendMap.setUserid(users.getUserId());
+            friendMap.setFriendid(users.getUserId());
             List<FriendMap> friendMaps = friendMapService.searchFriends(friendMap);
             if(friendMaps.size()>0){
                 FriendMap it = friendMaps.get(0);
@@ -95,6 +95,36 @@ public class FriendMapController {
             return ResponseBo.ok("发送成功");
         }catch (Exception e){
             return ResponseBo.error("发送失败");
+        }
+
+    }
+
+    @RequestMapping("pingbi")
+    @ResponseBody
+    public ResponseBo PingBi(Integer fId, HttpServletRequest request){
+        logger.info("开始进行好友屏蔽");
+        try{
+            FriendMap friendMap = new FriendMap();
+            friendMap.setFriendmapid(fId);
+            friendMap.setState(2);
+            friendMapService.updateNotNull(friendMap);
+            return ResponseBo.ok("屏蔽成功");
+        }catch (Exception e){
+            return ResponseBo.error("屏蔽失败");
+        }
+
+    }
+
+    @RequestMapping("delete")
+    @ResponseBody
+    public ResponseBo delete(Integer fId, HttpServletRequest request){
+        logger.info("开始进行好友删除");
+        try{
+
+            friendMapService.delete(fId);
+            return ResponseBo.ok("删除成功");
+        }catch (Exception e){
+            return ResponseBo.error("删除失败");
         }
 
     }
