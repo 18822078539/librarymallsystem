@@ -3,6 +3,7 @@ package com.library.mall.service.impl;
 import com.library.mall.entity.FamilyMap;
 import com.library.mall.service.IFamilyMapService;
 import com.library.mall.util.service.impl.BaseService;
+import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @Date:Created in 17:51 2019/6/6
  * @Modified By:
  */
+@Service
 public class FamilyMapServiceImpl extends BaseService<FamilyMap> implements IFamilyMapService{
     @Override
     public List<FamilyMap> searchFamilys(FamilyMap familyMap) {

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50155
 File Encoding         : 65001
 
-Date: 2019-06-06 18:48:26
+Date: 2019-06-08 08:48:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3744,11 +3744,13 @@ CREATE TABLE `familymap` (
   KEY `familypfks` (`familyid`),
   CONSTRAINT `familypfks` FOREIGN KEY (`familyid`) REFERENCES `users` (`user_Id`),
   CONSTRAINT `useridpfks` FOREIGN KEY (`userid`) REFERENCES `users` (`user_Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of familymap
 -- ----------------------------
+INSERT INTO `familymap` VALUES ('2', '4', '14', '0', '2019-06-07 17:18:45');
+INSERT INTO `familymap` VALUES ('3', '8', '14', '0', '2019-06-07 17:18:59');
 
 -- ----------------------------
 -- Table structure for feel

@@ -66,6 +66,8 @@
                         href="view/usercenter/#section10">我的电子书</a></li>
                 <li class="list-group-item-diy"><a
                         href="view/usercenter/#section11">亲情互联</a></li>
+                <li class="list-group-item-diy"><a
+                        href="view/usercenter/#section12">物流查询</a></li>
             </ul>
         </div>
         <!-- 控制内容 -->
@@ -89,8 +91,7 @@
                     <ul class="layui-tab-title">
                         <li class="layui-this">待付款</li>
                         <li>待发货</li>
-                        <li>待收货</li>
-                        <li>待评价</li>
+
                         <li>待归还</li>
                         <li>待确认</li>
                         <li>已完成</li>
@@ -99,8 +100,7 @@
                         <div class="layui-tab-item layui-show" id="state1">
                         </div>
                         <div class="layui-tab-item" id="state2"></div>
-                        <div class="layui-tab-item" id="state3"></div>
-                        <div class="layui-tab-item" id="state4"></div>
+
                         <div class="layui-tab-item" id="state5"></div>
                         <div class="layui-tab-item" id="state6"></div>
                         <div class="layui-tab-item" id="state7"></div>
@@ -414,6 +414,51 @@
 
                 </table>
             </div>
+            <div class="col-md-12">
+                <h1>
+                    <a name="section11">亲情互联</a>
+                </h1>
+                <hr/>
+                <table class="table table-hover center" id="familyArea">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">用户列表</li>
+                            <li>我的亲友</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <div id="allUser">
+
+                                </div>
+                            </div>
+                            <div class="layui-tab-item">
+                                <div id="readFamily">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </table>
+            </div>
+
+            <div class="col-md-12">
+                <h1>
+                    <a name="section12">物流查询</a>
+                </h1>
+                <hr/>
+                <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">待收货</li>
+                        <li>待评价</li>
+                    </ul>
+                    <div class="layui-tab-content" style="height: auto;">
+                        <div class="layui-tab-item layui-show" id="state3">
+                        </div>
+                        <div class="layui-tab-item" id="state4"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -432,13 +477,48 @@
 </div>
 
 <div id="wuliu" style="display:none;width:800px;padding-top:10px;">
-        <div class="layui-form-item">
-            <label class="layui-form-label">提问内容</label>
-            <div class="layui-input-block">
-                <input type="text"  required lay-verify="required" placeholder="请输入提问内容"
-                       value="" class="layui-input"/>
-            </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">提问内容</label>
+        <div class="layui-input-block">
+            <input type="text"  required lay-verify="required" placeholder="请输入提问内容"
+                   value="" class="layui-input"/>
         </div>
+    </div>
+</div>
+
+<div id="showwuliu" style="display:none;width:800px;padding-top:10px;">
+    <ul class="layui-timeline">
+        <li class="layui-timeline-item">
+            <i class="layui-icon layui-timeline-axis"></i>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">快递员正在揽件</div>
+            </div>
+        </li>
+        <li class="layui-timeline-item">
+            <i class="layui-icon layui-timeline-axis"></i>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">快递已到达广州东莞分拨中心，准备发出</div>
+            </div>
+        </li>
+        <li class="layui-timeline-item">
+            <i class="layui-icon layui-timeline-axis"></i>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">快递由广州发往天津，正在运输中</div>
+            </div>
+        </li>
+        <li class="layui-timeline-item">
+            <i class="layui-icon layui-timeline-axis"></i>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">快递已到达天津市</div>
+            </div>
+        </li>
+        <li class="layui-timeline-item">
+            <i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop layui-timeline-axis"></i>
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title">快递员张三18788996677正在为您派件</div>
+            </div>
+        </li>
+    </ul>
 </div>
 
 <div id="changeB" style="display:none;width:800px;padding-top:10px;">
@@ -692,6 +772,8 @@
         showShareBooks();
         showUserTask();
         showShareBooksa();
+        showAllFamilys();
+        showAllUsers();
     })
 
     function showUserTask() {
@@ -897,6 +979,30 @@
         });
     }
 
+    function showAllUsers() {
+        $.post("user/findAllUser", {
+            limit: 30,
+            page: 1
+        }, function (r) {
+            if (r.code === 0) {
+                console.info(r.data);
+                var html = "";
+                for (var i = 0; i < r.data.length; i++) {
+                    var item = r.data[i];
+                    var str = "<div class=\"layui-card\">" +
+                        "<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\"" +
+                        "data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"" +
+                        "aria-expanded=\"false\"><div style=\"margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;\"><img src=\"upload/" + item.userImg + "\" style=\"width:30px;height:30px;\" class=\"layui-nav-img\"></div>&nbsp;&nbsp;" + item.userName + "<span class=\"caret\"></span></a><ul class=\"dropdown-menu\"><li><a href=\"javascript:void(0)\" onclick='addFamily(" + item.userId + ")'>加好友</a></li></ul></li>" +
+                        "</div>";
+                    html += str;
+                }
+                $("#allUser").html("").append(html);
+
+            } else {
+            }
+        });
+    }
+
     function showAllSysMsg() {
         $.post("sysmsg/findAllByUser", {
             pageSize: 30, pageNum: 1
@@ -963,6 +1069,18 @@
         })
     }
 
+    function addFamily(friendId) {
+        $.post("familyMap/addFamily", {
+            userid: friendId
+        }, function (r) {
+            if (r.code === 0) {
+                parent.layer.msg('亲友申请发送成功', {icon: 1, shade: 0.4, time: 1000});
+            } else {
+                parent.layer.msg(r.msg, {icon: 1, shade: 0.4, time: 1000});
+            }
+        })
+    }
+
     function pingbiFri(friendId) {
         $.post("friendMap/pingbi", {
             fId: friendId
@@ -1005,6 +1123,31 @@
                     html += str;
                 }
                 $("#readFriend").html("").append(html);
+
+            } else {
+            }
+        });
+    }
+
+    function showAllFamilys() {
+        $.post("familyMap/findBySplitPage", {
+            pageSize: 30,
+            pageNum: 1,
+            state: 1
+        }, function (r) {
+            if (r.code === 0) {
+                console.info(r.msg);
+                var html = "";
+                for (var i = 0; i < r.msg.length; i++) {
+                    var item = r.msg[i];
+                    var str = "<div class=\"layui-card\">" +
+                        "<div style=\"margin-top:-5px;float:left;width:30px; height:30px; border-radius:50%; overflow:hidden;\"><img src=\"upload/" + item.users.userImg + "\" style=\"width:30px;height:30px;\" class=\"layui-nav-img\"></div>&nbsp;&nbsp;" + item.users.userName +
+                        "<div>" + item.ctime +
+                        "</div>" +
+                        "</div>";
+                    html += str;
+                }
+                $("#readFamily").html("").append(html);
 
             } else {
             }
@@ -1777,7 +1920,7 @@
                                 + "</tr>";
                         }
                         str = str
-                            + "</tbody></table></div><button onclick='confirmReceive(\"" + data[i].orderId + "\")' class='layui-btn layui-btn-normal  layui-btn-radius'>确认收货</button>"+"<button onclick='sendToWl()' class='layui-btn layui-btn-normal  layui-btn-radius'>联系物流</button>"
+                            + "</tbody></table></div><button onclick='confirmReceive(\"" + data[i].orderId + "\")' class='layui-btn layui-btn-normal  layui-btn-radius'>确认收货</button>"+"<button onclick='sendToWl()' class='layui-btn layui-btn-normal  layui-btn-radius'>联系物流</button>"+"<button onclick='showwl()' class='layui-btn layui-btn-normal  layui-btn-radius'>查看物流</button>"
                             + "</div></div>";
                     }
                     str = str + "</div>";
@@ -1786,6 +1929,29 @@
                 //element.render();
             }
         });
+    }
+    
+    function showwl() {
+        layer.open({
+            type: 1,
+            title: '物流信息',
+            shade: 0.4,  //阴影度
+            fix: false,
+            shadeClose: true,
+            maxmin: false,
+            area: ['900px;', '240px;'],    //窗体大小（宽,高）
+            content: $('#showwuliu'),
+            success: function (layero, index) {
+                var body = layer.getChildFrame('body', index); //得到子页面层的BODY
+
+                //form.render();
+                body.find('#hidValue').val(index); //将本层的窗口索引传给子页面层的hidValue中
+            },
+            btn: ['确认', '取消'],
+            yes: function (index, layero) {
+                layer.close(index);
+            }
+        })
     }
 
     function changeBook() {

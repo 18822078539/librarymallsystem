@@ -18,6 +18,81 @@
 <link href="resources/css/style.css" rel="stylesheet">
 <script type="text/javascript" src="resources/js/jquery.1.12.4.min.js"></script>
 <script src="resources/js/bootstrap.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=l1A4jiCdqM3eLnrcBMjiPM9RTLCKf1io"></script>
+	<script>
+		$(function () {
+            var map = new BMap.Map("showwuliu");          // 创建地图实例
+            var point = new BMap.Point(116.404, 39.915);  // 创建点坐标
+            map.centerAndZoom(point, 15);
+            map.enableScrollWheelZoom(true);
+            // 编写自定义函数,创建标注
+            function addMarker(point){
+                var marker = new BMap.Marker(point);
+                map.addOverlay(marker);
+                // 百度地图API功能
+                var sContent =
+                    "<h4 style='margin:0 0 5px 0;padding:0.2em 0'>书籍列表</h4>" +
+                    "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>骆驼祥子</p>"+
+                    "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>围城</p>"+
+                    "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>钢铁是怎么炼成的</p>"+
+                    "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>从你的全世界路过</p>"+
+                    "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>从零开始学运营</p>";
+                var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
+                marker.addEventListener("click",function () {
+                    var p = marker.getPosition();  //获取marker的位置
+                    this.openInfoWindow(infoWindow);
+                });
+
+            }
+
+            var geolocation = new BMap.Geolocation();
+            geolocation.getCurrentPosition(function(r){
+                if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                    var mk = new BMap.Marker(r.point);
+                    map.addOverlay(mk);
+                    map.panTo(r.point);
+                    // 随机向地图添加25个标注
+                    var bounds = map.getBounds();
+                    var sw = bounds.getSouthWest();
+                    var ne = bounds.getNorthEast();
+                    var lngSpan = Math.abs(sw.lng - ne.lng);
+                    var latSpan = Math.abs(ne.lat - sw.lat);
+                    for (var i = 0; i < 25; i ++) {
+                        var point = new BMap.Point(sw.lng + lngSpan * (Math.random() * 0.7), ne.lat - latSpan * (Math.random() * 0.7));
+                        addMarker(point);
+                    }
+                    // alert('您的位置：'+r.point.lng+','+r.point.lat);
+                }
+                else {
+                    alert('failed'+this.getStatus());
+                }
+            },{enableHighAccuracy: true})
+        })
+
+
+        function nearby() {
+            layer.open({
+                type: 1,
+                title: '附近书架',
+                shade: 0.4,  //阴影度
+                fix: false,
+                shadeClose: true,
+                maxmin: false,
+                area: ['910px;', '610px;'],    //窗体大小（宽,高）
+                content: $('#showwuliu'),
+                success: function (layero, index) {
+                    var body = layer.getChildFrame('body', index); //得到子页面层的BODY
+
+                    //form.render();
+                    body.find('#hidValue').val(index); //将本层的窗口索引传给子页面层的hidValue中
+                },
+                btn: ['确认', '取消'],
+                yes: function (index, layero) {
+                    layer.close(index);
+                }
+            })
+        }
+	</script>
 </head>
 <body>
 	<!--导航栏部分-->
@@ -64,10 +139,16 @@
 							id="searchKeyWord" />
 					</div>
 					<button class="btn btn-default" type="submit">查找图书</button>
-				</div>
+					<button class="btn btn-default" type="button" onclick="nearby()">附近书架</button>
+				<%--</div>--%>
 				</form>
+
+				</div>
 			</div>
 		</div>
 	</nav>
+	<div id="showwuliu" style="display:none;width:900px;padding-top:10px;height: 500px">
+
+	</div>
 </body>
 </html>

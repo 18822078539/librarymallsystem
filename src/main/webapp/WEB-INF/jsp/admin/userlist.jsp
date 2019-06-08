@@ -114,7 +114,9 @@ var laydate;
                      ,{ field: 'userId', title: '用户编号', width: 100, align: 'center' }
                      , { field: 'userName', title: '用户名', width: 120, align: 'center'}
                     , { field: 'userPhone', title: '用户电话', width: 150, align: 'center' }
-                    , { field: 'userEmail', title: '用户邮箱', width: 251, align: 'center' }
+                    , { field: 'userEmail', title: '用户邮箱', width: 151, align: 'center' }
+                    , { field: 'userScore', title: '用户积分', width: 100, align: 'center' }
+                    , { field: 'userDevote', title: '用户贡献值', width: 100, align: 'center' }
                    ,{field:'userImg', title: '用户头像', width: 190, align: 'center',templet: function(d){
                 	   		var str="<img style='width:120px;height:50px;' src='upload/"+d.userImg+"' />";
                         	return str;
